@@ -16,4 +16,5 @@ Route::group(['middleware'=>'check'], function(){
     Route::post('/customer/importxl', 'CustomerController@importxl')->name('importxl');
     Route::get('/generatepdf','CustomerController@generatePdf')->name('generatePdf');
     Route::get('/email', 'CustomerController@sendEmail')->name('sendEmail');
+    Route::get('/send-sms', 'CustomerController@SmsProcess')->name('smsProcess');
 });
