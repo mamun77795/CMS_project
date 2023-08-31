@@ -174,7 +174,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('smsProcess')}}" class="nav-link">
+                                    <a href="{{route('messageBox')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Send SMS (All)</p>
                                     </a>

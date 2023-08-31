@@ -8,6 +8,7 @@ use App\Imports\CustomersImport;
 use App\Mail\MyCustomEmail;
 use App\Models\User;
 use App\Modules\Customer\Models\Customer;
+use App\Modules\Customer\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -23,6 +24,7 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $customers = Customer::all();
@@ -211,40 +213,50 @@ class CustomerController extends Controller
         return $pdf->download('customers.pdf');
     }
 
+    public function messageBox()
+    {
+        return view('Customer::message_send');
+    }
 
-    public function SmsProcess(){
+    public function SmsProcess(Request $request)
+    {
+        $message = new Message();
+        $message->message = $request->message;
+        $message->save();
 
         $customers = Customer::all();
 
-        $sms = "This is test SMS from Elite Paint new software";
+        $data = Message::latest()->first();
+        $sms =$data->message;
 
         foreach ($customers as $customer) {
             $customer_phone = $customer->phone;
-            sendSMS($sms, $customer_phone);
-               
+            if($customer_phone != null){
+                sendSMS($sms, $customer_phone);
+            }
         }
-        return 'SMS sent successfully!';
+        return 'Your SMS sent successfully! '.$sms;
     }
 
 
     public function sendEmail()
     {
-        
+
         $customers = Customer::all();
 
         foreach ($customers as $customer) {
             $mailaddress = $customer->email;
             $this->mailAddress($mailaddress);
-               
         }
 
         return 'Email sent successfully!';
     }
 
 
-    public function mailAddress($mailaddress){
+    public function mailAddress($mailaddress)
+    {
         $email = new MyCustomEmail;
         Mail::to($mailaddress)->send($email);
     }
-    
+
 }
