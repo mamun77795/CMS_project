@@ -38,6 +38,7 @@ class ComposerStaticInit995b9cbd2c4bf4f75e2d4e4d80b9931c
         'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -584,6 +585,7 @@ class ComposerStaticInit995b9cbd2c4bf4f75e2d4e4d80b9931c
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\CustomersExport' => __DIR__ . '/../..' . '/app/Exports/CustomersExport.php',
+        'App\\Exports\\CustomersExportWithHeaders' => __DIR__ . '/../..' . '/app/Exports/CustomersExportWithHeaders.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
@@ -600,6 +602,7 @@ class ComposerStaticInit995b9cbd2c4bf4f75e2d4e4d80b9931c
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Imports\\CustomersImport' => __DIR__ . '/../..' . '/app/Imports/CustomersImport.php',
+        'App\\Mail\\MyCustomEmail' => __DIR__ . '/../..' . '/app/Mail/MyCustomEmail.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Modules\\ClientManager\\Http\\Controllers\\ClientManagerController' => __DIR__ . '/../..' . '/app/Modules/ClientManager/Http/Controllers/ClientManagerController.php',
         'App\\Modules\\ClientManager\\Models\\ClientManager' => __DIR__ . '/../..' . '/app/Modules/ClientManager/Models/ClientManager.php',
