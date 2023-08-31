@@ -18,4 +18,5 @@ Route::group(['middleware'=>'check'], function(){
     Route::get('/email', 'CustomerController@sendEmail')->name('sendEmail');
     Route::post('/send-sms', 'CustomerController@SmsProcess')->name('smsProcess');
     Route::get('/message-box', 'CustomerController@messageBox')->name('messageBox');
+    Route::get('/ind_msg', 'CustomerController@indMsgBox')->name('indMsgBox');
 });

@@ -217,6 +217,9 @@ class CustomerController extends Controller
     {
         return view('Customer::message_send');
     }
+    public function indMsgBox(){
+        return view('Customer::ind_msg_send');
+    }
 
     public function SmsProcess(Request $request)
     {

@@ -180,7 +180,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('customers.create')}}" class="nav-link">
+                                    <a href="{{route('indMsgBox')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Send SMS (Individual)</p>
                                     </a>
