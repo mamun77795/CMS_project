@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('addinfo', 'CustomerController@create')->name('customerinfo');
 
 Route::group(['middleware'=>'check'], function(){
+
     Route::resource('customers', 'CustomerController');
     Route::get('/deleted','CustomerController@deleted')->name('deleted');
     Route::get('/restore/{id}', 'CustomerController@reStore')->name('reStore');
@@ -19,4 +20,6 @@ Route::group(['middleware'=>'check'], function(){
     Route::post('/send-sms', 'CustomerController@SmsProcess')->name('smsProcess');
     Route::get('/message-box', 'CustomerController@messageBox')->name('messageBox');
     Route::get('/ind_msg', 'CustomerController@indMsgBox')->name('indMsgBox');
+    Route::get('/filter', 'CustomerController@filterCustomer')->name('filterCustomer');
+
 });

@@ -9,23 +9,23 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/fontawesome-free/css/all.min.css')); ?>">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'">
     <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')); ?>">
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')); ?>">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/jqvmap/jqvmap.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/jqvmap/jqvmap.min.css')); ?>">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/dist/css/adminlte.min.css')); ?>">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')); ?>">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/daterangepicker/daterangepicker.css')); ?>">
     <!-- summernote -->
-    <link rel="stylesheet" href="{{asset('assets/plugins/summernote/summernote-bs4.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/summernote/summernote-bs4.min.css')); ?>">
 
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
@@ -56,10 +56,10 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{url('/')}}" class="nav-link">Home</a>
+                    <a href="<?php echo e(url('/')); ?>" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('customers.index')}}" class="nav-link">Customer Info</a>
+                    <a href="<?php echo e(route('customers.index')); ?>" class="nav-link">Customer Info</a>
                 </li>
             </ul>
             <!-- Right navbar links -->
@@ -91,7 +91,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn text-secondary border-secondary" href="{{route('logout')}}">Logout</a>
+                    <a class="btn text-secondary border-secondary" href="<?php echo e(route('logout')); ?>">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -100,7 +100,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="http://elitepaint.com.bd/" target="_blank" class="brand-link pl-5 bg-white">
-                <img src="{{asset('assets/dist/img/logo.jpg')}}" alt="AdminLTE Logo" class="brand-image">
+                <img src="<?php echo e(asset('assets/dist/img/logo.jpg')); ?>" alt="AdminLTE Logo" class="brand-image">
                 <br>
             </a>
             <!-- Sidebar -->
@@ -108,13 +108,14 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{asset('photo')}}/{{Session::get('sess_photo')}}" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?php echo e(asset('photo')); ?>/<?php echo e(Session::get('sess_photo')); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                            @if(session('sess_user_name'))
-                            {{Session::get('sess_user_name')}}
-                            @endif
+                            <?php if(session('sess_user_name')): ?>
+                            <?php echo e(Session::get('sess_user_name')); ?>
+
+                            <?php endif; ?>
                         </a>
                     </div>
                 </div>
@@ -135,7 +136,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
-                            <a href="{{route('login')}}" class="nav-link active">
+                            <a href="<?php echo e(route('login')); ?>" class="nav-link active">
                                 <p>
                                     Dashboard
                                 </p>
@@ -151,13 +152,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('customers.index')}}" class="nav-link">
+                                    <a href="<?php echo e(route('customers.index')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Manage Customer</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('customers.create')}}" class="nav-link">
+                                    <a href="<?php echo e(route('customers.create')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Create Customer</p>
                                     </a>
@@ -174,13 +175,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('messageBox')}}" class="nav-link">
+                                    <a href="<?php echo e(route('messageBox')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Send SMS (All)</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('indMsgBox')}}" class="nav-link">
+                                    <a href="<?php echo e(route('indMsgBox')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Send SMS (Individual)</p>
                                     </a>
@@ -197,13 +198,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('sendEmail')}}" class="nav-link">
+                                    <a href="<?php echo e(route('sendEmail')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Send Email (All)</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('customers.create')}}" class="nav-link">
+                                    <a href="<?php echo e(route('customers.create')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Send Email (Individual)</p>
                                     </a>
@@ -220,13 +221,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('users.index')}}" class="nav-link">
+                                    <a href="<?php echo e(route('users.index')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Manage User</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('users.create')}}" class="nav-link">
+                                    <a href="<?php echo e(route('users.create')); ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Create User</p>
                                     </a>
@@ -243,7 +244,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            @yield('page')
+            <?php echo $__env->yieldContent('page'); ?>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
@@ -261,39 +262,39 @@
     <!-- ./wrapper -->
 
     <!-- jQuery -->
-    <script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/jquery/jquery.min.js')); ?>"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="{{asset('assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/jquery-ui/jquery-ui.min.js')); ?>"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
-    <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
     <!-- ChartJS -->
-    <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/chart.js/Chart.min.js')); ?>"></script>
     <!-- Sparkline -->
-    <script src="{{asset('assets/plugins/sparklines/sparkline.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/sparklines/sparkline.js')); ?>"></script>
     <!-- JQVMap -->
-    <script src="{{asset('assets/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/jqvmap/jquery.vmap.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/plugins/jqvmap/maps/jquery.vmap.usa.js')); ?>"></script>
     <!-- jQuery Knob Chart -->
-    <script src="{{asset('assets/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/jquery-knob/jquery.knob.min.js')); ?>"></script>
     <!-- daterangepicker -->
-    <script src="{{asset('assets/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/moment/moment.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/plugins/daterangepicker/daterangepicker.js')); ?>"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')); ?>"></script>
     <!-- Summernote -->
-    <script src="{{asset('assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/summernote/summernote-bs4.min.js')); ?>"></script>
     <!-- overlayScrollbars -->
-    <script src="{{asset('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+    <script src="<?php echo e(asset('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')); ?>"></script>
     <!-- AdminLTE App -->
-    <script src="{{asset('assets/dist/js/adminlte.js')}}"></script>
+    <script src="<?php echo e(asset('assets/dist/js/adminlte.js')); ?>"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{asset('assets/dist/js/demo.js')}}"></script>
+    <script src="<?php echo e(asset('assets/dist/js/demo.js')); ?>"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{asset('assets/dist/js/pages/dashboard.js')}}"></script>
+    <script src="<?php echo e(asset('assets/dist/js/pages/dashboard.js')); ?>"></script>
 
 
 
@@ -309,7 +310,7 @@
             $('#example').DataTable();
         });
     </script>
-    @yield('script')
+    <?php echo $__env->yieldContent('script'); ?>
 </body>
 
-</html>
+</html><?php /**PATH E:\xampp\htdocs\new-project\resources\views/layout/erp/app.blade.php ENDPATH**/ ?>

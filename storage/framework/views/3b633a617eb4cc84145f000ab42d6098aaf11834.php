@@ -1,39 +1,39 @@
-@extends('layout.erp.app')
 
-@section('page')
+
+<?php $__env->startSection('page'); ?>
 
 <div class="container mt-4">
     <div class="row bg-secondary mb-2">
         <div class="col-md-6 d-flex justify-content-start">
-            <a href="{{route('customers.create')}}" class="btn border-warning btn-secondary mb-2 mt-2">Add</a>
-            <a href="{{route('getXlimport')}}" class="btn border-warning btn-secondary ml-1 mb-2 mt-2">Import</a>
-            @if(Session::get('sess_role_id') == 1)
-            <a href="{{route('deleted')}}" class="btn border-warning btn-secondary ml-1 mb-2 mt-2">Deleted items</a>
-            @endif
+            <a href="<?php echo e(route('customers.create')); ?>" class="btn border-warning btn-secondary mb-2 mt-2">Add</a>
+            <a href="<?php echo e(route('getXlimport')); ?>" class="btn border-warning btn-secondary ml-1 mb-2 mt-2">Import</a>
+            <?php if(Session::get('sess_role_id') == 1): ?>
+            <a href="<?php echo e(route('deleted')); ?>" class="btn border-warning btn-secondary ml-1 mb-2 mt-2">Deleted items</a>
+            <?php endif; ?>
         </div>
         <div class="col-md-6 d-flex justify-content-end">
             <h6 class="mt-4">Download:</h6>
-            <a href="{{route('exportxl')}}" class="mt-3 ml-1"><img src="{{asset('assets/dist/img/xlicon.png')}}" style="height: 25px; width:25px;"/></a>
-            <a href="{{route('generatePdf')}}" class="mt-3 ml-1"><img src="{{asset('assets/dist/img/pdficon.png')}}" style="height: 25px; width:25px;"/></a>
+            <a href="<?php echo e(route('exportxl')); ?>" class="mt-3 ml-1"><img src="<?php echo e(asset('assets/dist/img/xlicon.png')); ?>" style="height: 25px; width:25px;"/></a>
+            <a href="<?php echo e(route('generatePdf')); ?>" class="mt-3 ml-1"><img src="<?php echo e(asset('assets/dist/img/pdficon.png')); ?>" style="height: 25px; width:25px;"/></a>
         </div>
     </div>
     <div class="col-md-12">
-        <form action="{{route('filterCustomer')}}" class="d-flex justify-content-center">
+        <form action="<?php echo e(route('filterCustomer')); ?>" class="d-flex justify-content-center">
             <h5>Filter:</h5>
             <select name="district" id="district" class="ml-1 mr-1">
                 <option>District</option>
-                @foreach($customers as $customer)
-                <option value="{{$customer->district}}">{{$customer->district}}</option>
-                @endforeach
+                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($customer->district); ?>"><?php echo e($customer->district); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
             <select name="thana" id="thana" class="ml-1 mr-1">
                 <option>Thana</option>
             </select>
             <select name="blood_group" id="blood_group" class="ml-1 mr-1">
                 <option>Blood Group</option>
-                @foreach($customers as $customer)
-                <option value="{{$customer->blood_group}}">{{$customer->blood_group}}</option>
-                @endforeach
+                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($customer->blood_group); ?>"><?php echo e($customer->blood_group); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </form>
     </div>
@@ -47,42 +47,44 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach($customers as $customer)
+            <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td>
-                        <b>First Name: </b>{{$customer->first_name}}<br>
-                        <b>Last Name: </b>{{$customer->last_name}}<br>
-                        <b>Email: </b>{{$customer->email}}<br>
-                        <b>Phone: </b>{{$customer->phone}}
+                        <b>First Name: </b><?php echo e($customer->first_name); ?><br>
+                        <b>Last Name: </b><?php echo e($customer->last_name); ?><br>
+                        <b>Email: </b><?php echo e($customer->email); ?><br>
+                        <b>Phone: </b><?php echo e($customer->phone); ?>
+
                     </td>
                     <td>
-                        <b>Street: </b>{{$customer->street}} <br>
-                        <b>Thana: </b>{{$customer->thana}} <br>
-                        <b>District: </b>{{$customer->district}} <br>
-                        <b>Post Code: </b>{{$customer->post_code}}
+                        <b>Street: </b><?php echo e($customer->street); ?> <br>
+                        <b>Thana: </b><?php echo e($customer->thana); ?> <br>
+                        <b>District: </b><?php echo e($customer->district); ?> <br>
+                        <b>Post Code: </b><?php echo e($customer->post_code); ?>
+
                     </td>
                     <td>
-                        <b>Blood Group: </b>{{$customer->blood_group}} <br>
-                        <b>Reference: </b>{{$customer->reference}} <br>
+                        <b>Blood Group: </b><?php echo e($customer->blood_group); ?> <br>
+                        <b>Reference: </b><?php echo e($customer->reference); ?> <br>
                     </td>
                     <td style="display: flex;" >
-                    <a href="{{route('customers.edit', $customer->id)}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>                 
-                        <form action="{{route('customers.destroy', $customer->id)}}" method="post">
-                            @csrf                          
-                            @method('delete')
+                    <a href="<?php echo e(route('customers.edit', $customer->id)); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>                 
+                        <form action="<?php echo e(route('customers.destroy', $customer->id)); ?>" method="post">
+                            <?php echo csrf_field(); ?>                          
+                            <?php echo method_field('delete'); ?>
                             <!-- <input type="submit" class="btn btn-danger" value="Delete"> -->
                             <button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <!-- Add more rows here -->
         </tbody>
     </table>
 </div>
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <script>
         $(function(){
             var district=""
@@ -126,10 +128,10 @@
                                 tbody+=`<b>Reference: </b>${item.reference}<br>`
                                 tbody+="</td>"
                                 tbody+=`<td style="display: flex;">`
-                                tbody+=`<a href="{{url('customers/${item.id}/edit')}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                                tbody+=`<form action="{{url('customers/${item.id}')}}" method="post">`
-                                tbody+=`@csrf`
-                                tbody+=`@method('delete')`
+                                tbody+=`<a href="<?php echo e(url('customers/${item.id}/edit')); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
+                                tbody+=`<form action="<?php echo e(url('customers/${item.id}')); ?>" method="post">`
+                                tbody+=`<?php echo csrf_field(); ?>`
+                                tbody+=`<?php echo method_field('delete'); ?>`
                                 tbody+=`<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
                                 tbody+=`</form>`
                                 tbody+="</td>"
@@ -146,6 +148,7 @@
 
             $('#thana').on('change', function(){
                 var thana = this.value;
+                console.log(district);
                 var html ="";
                 var tbody="";
 
@@ -179,10 +182,10 @@
                                 tbody+=`<b>Reference: </b>${item.reference}<br>`
                                 tbody+="</td>"
                                 tbody+=`<td style="display: flex;">`
-                                tbody+=`<a href="{{url('customers/${item.id}/edit')}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                                tbody+=`<form action="{{url('customers/${item.id}')}}" method="post">`
-                                tbody+=`@csrf`
-                                tbody+=`@method('delete')`
+                                tbody+=`<a href="<?php echo e(url('customers/${item.id}/edit')); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
+                                tbody+=`<form action="<?php echo e(url('customers/${item.id}')); ?>" method="post">`
+                                tbody+=`<?php echo csrf_field(); ?>`
+                                tbody+=`<?php echo method_field('delete'); ?>`
                                 tbody+=`<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
                                 tbody+=`</form>`
                                 tbody+="</td>"
@@ -227,10 +230,10 @@
                                 tbody+=`<b>Reference: </b>${item.reference}<br>`
                                 tbody+="</td>"
                                 tbody+=`<td style="display: flex;">`
-                                tbody+=`<a href="{{url('customers/${item.id}/edit')}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                                tbody+=`<form action="{{url('customers/${item.id}')}}" method="post">`
-                                tbody+=`@csrf`
-                                tbody+=`@method('delete')`
+                                tbody+=`<a href="<?php echo e(url('customers/${item.id}/edit')); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
+                                tbody+=`<form action="<?php echo e(url('customers/${item.id}')); ?>" method="post">`
+                                tbody+=`<?php echo csrf_field(); ?>`
+                                tbody+=`<?php echo method_field('delete'); ?>`
                                 tbody+=`<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
                                 tbody+=`</form>`
                                 tbody+="</td>"
@@ -245,4 +248,5 @@
             })
         })
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.erp.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\xampp\htdocs\new-project\app\Modules/Customer/resources/views/index.blade.php ENDPATH**/ ?>

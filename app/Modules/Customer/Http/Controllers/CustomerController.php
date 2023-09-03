@@ -178,6 +178,21 @@ class CustomerController extends Controller
         return Redirect::route('deleted');
     }
 
+    public function filterCustomer(Request $request){
+        $district = $request->district;
+        $thana = $request->thana;
+        $filter_district = DB::select("select * from customers where district='$district'");
+        $filter_thana = DB::select("select * from customers where thana='$thana'");
+
+        if($filter_district != null){
+            $customers = $filter_district;
+            return view('Customer::index', compact('customers'));
+        }elseif($filter_thana != null){
+            $customers = $filter_thana;
+            return view('Customer::index', compact('customers'));
+        }
+    }
+
     public function person($email)
     {
         $user = User::where('email', $email)->first();

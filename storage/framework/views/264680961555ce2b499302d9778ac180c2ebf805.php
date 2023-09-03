@@ -1,0 +1,1 @@
+<h1>Dashboard</h1><?php /**PATH D:\Ampps\www\new-project\resources\views/index.blade.php ENDPATH**/ ?>
