@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Customer\Http\Controllers\CustomerController;
+use App\Modules\Customer\Http\Controllers\FilterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('addinfo', 'CustomerController@create')->name('customerinfo');
@@ -21,5 +22,7 @@ Route::group(['middleware'=>'check'], function(){
     Route::get('/message-box', 'CustomerController@messageBox')->name('messageBox');
     Route::get('/ind_msg', 'CustomerController@indMsgBox')->name('indMsgBox');
     Route::get('/filter', 'CustomerController@filterCustomer')->name('filterCustomer');
+
+    Route::post('/download_customer', [FilterController::class,'downloadExportxl'])->name('downloadExportxl');
 
 });

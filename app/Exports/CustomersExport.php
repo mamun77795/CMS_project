@@ -4,20 +4,38 @@ namespace App\Exports;
 
 use App\Models\Customer;
 use App\Modules\Customer\Models\Customer as ModelsCustomer;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CustomersExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
+class CustomersExport implements  FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
+
+    //WithHeadings, ShouldAutoSize, WithStyles,
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
+
+    public $allData;
+    protected $data;
+
+    public function __construct($data)
     {
-        return ModelsCustomer::all();
+        $this->data= $data;
+        
+    }
+
+    public function collection()
+    {   
+        if($this->data != null){
+            return collect($this->data);
+        }else{
+            return ModelsCustomer::all();
+        }
     }
 
     public function headings(): array
