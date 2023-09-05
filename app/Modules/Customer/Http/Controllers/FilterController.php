@@ -4,6 +4,7 @@ namespace App\Modules\Customer\Http\Controllers;
 
 use App\Exports\CustomersExport;
 use App\Http\Controllers\Controller;
+use App\Modules\Customer\Models\Message;
 use Barryvdh\DomPDF\Facade\Pdf;
 use HelperOne;
 use Illuminate\Http\Request;
@@ -39,17 +40,36 @@ class FilterController extends Controller
 
         $this->ConditionValue();
 
-        if(isset($_POST['btn_excel'])){
+        if (isset($_POST['btn_excel'])) {
             return Excel::download(new CustomersExport($this->data), 'customers.xlsx');
         }
-        if(isset($_POST['btn_pdf'])){
+        if (isset($_POST['btn_pdf'])) {
             $data = $this->data;
             $pdf  = Pdf::loadView('Customer::exportpdf', compact('data'));
             return $pdf->download('customers.pdf');
         }
+        if (isset($_POST['send-button'])) {
+            $message = new Message();
+            $message->message = $request->message;
+            $message->save();
+
+            $customers = $this->data;
+
+            $sms = $request->message;
+
+            foreach ($customers as $customer) {
+                $customer_phone = $customer->phone;
+                if ($customer_phone != null) {
+                    sendSMS($sms, $customer_phone);
+                }
+            }
+            return 'Your SMS sent successfully! ' . $sms;
+        }
     }
 
-    public function ConditionValue(){
+
+    public function ConditionValue()
+    {
         if ($this->district == null && $this->thana == null && $this->blood_group == null) {
             $filter = DB::select("select * from customers");
             $this->data = $filter;
@@ -77,7 +97,7 @@ class FilterController extends Controller
         }
 
         if ($this->district == null && $this->thana == null && $this->blood_group == null) {
-            
+
             $allData = DB::select("select * from customers");
             $this->data = $allData;
         }

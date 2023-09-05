@@ -15,14 +15,11 @@ Route::group(['middleware'=>'check'], function(){
     Route::get('/person/{email}', 'CustomerController@person')->name('person');
     Route::get('/get_importxl_file', 'CustomerController@getXlimport')->name('getXlimport');
     Route::post('/customer/importxl', 'CustomerController@importxl')->name('importxl');
-    //Route::get('/generatepdf','CustomerController@generatePdf')->name('generatePdf');
     Route::get('/email', 'CustomerController@sendEmail')->name('sendEmail');
-    Route::post('/send-sms', 'CustomerController@SmsProcess')->name('smsProcess');
     Route::get('/message-box', 'CustomerController@messageBox')->name('messageBox');
     Route::get('/ind_msg', 'CustomerController@indMsgBox')->name('indMsgBox');
     Route::get('/filter', 'CustomerController@filterCustomer')->name('filterCustomer');
 
     Route::post('/download_customer', [FilterController::class,'downloadExportxl'])->name('downloadExportxl');
-    //Route::get('/generatepdf','FilterController@generatePdf')->name('generatePdf');
 
 });

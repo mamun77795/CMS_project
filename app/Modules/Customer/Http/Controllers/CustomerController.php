@@ -178,20 +178,20 @@ class CustomerController extends Controller
         return Redirect::route('deleted');
     }
 
-    public function filterCustomer(Request $request){
-        $district = $request->district;
-        $thana = $request->thana;
-        $filter_district = DB::select("select * from customers where district='$district'");
-        $filter_thana = DB::select("select * from customers where thana='$thana'");
+    // public function filterCustomer(Request $request){
+    //     $district = $request->district;
+    //     $thana = $request->thana;
+    //     $filter_district = DB::select("select * from customers where district='$district'");
+    //     $filter_thana = DB::select("select * from customers where thana='$thana'");
 
-        if($filter_district != null){
-            $customers = $filter_district;
-            return view('Customer::index', compact('customers'));
-        }elseif($filter_thana != null){
-            $customers = $filter_thana;
-            return view('Customer::index', compact('customers'));
-        }
-    }
+    //     if($filter_district != null){
+    //         $customers = $filter_district;
+    //         return view('Customer::index', compact('customers'));
+    //     }elseif($filter_thana != null){
+    //         $customers = $filter_thana;
+    //         return view('Customer::index', compact('customers'));
+    //     }
+    // }
 
     public function person($email)
     {
@@ -216,32 +216,12 @@ class CustomerController extends Controller
 
     public function messageBox()
     {
-        return view('Customer::message_send');
+        $customers = Customer::all();
+        return view('Customer::message_send', compact('customers'));
     }
     public function indMsgBox(){
         return view('Customer::ind_msg_send');
     }
-
-    public function SmsProcess(Request $request)
-    {
-        $message = new Message();
-        $message->message = $request->message;
-        $message->save();
-
-        $customers = Customer::all();
-
-        $data = Message::latest()->first();
-        $sms =$data->message;
-
-        foreach ($customers as $customer) {
-            $customer_phone = $customer->phone;
-            if($customer_phone != null){
-                sendSMS($sms, $customer_phone);
-            }
-        }
-        return 'Your SMS sent successfully! '.$sms;
-    }
-
 
     public function sendEmail()
     {
