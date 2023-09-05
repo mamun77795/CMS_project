@@ -1,18 +1,5 @@
 <?php
 
-use App\Exports\CustomersExport;
-
-class HelperOne extends CustomersExport{
-
-    public function filterData($data){
-        $filteringData= $data;
-        $this->allData=$filteringData;
-        return response()->json($data);
-    }
-
-}
-
-
 function sendSMS($sms, $to)
 {
 

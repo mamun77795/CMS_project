@@ -11,4 +11,3 @@ use Illuminate\Support\Facades\Route;
 // ]);
 
 Route::post('/filter_customer', [FilterController::class,'filterCustomer'])->name('filterCustomer');
-//Route::get('/download_customer', [FilterController::class,'downloadExportxl'])->name('downloadExportxl');

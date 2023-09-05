@@ -199,11 +199,6 @@ class CustomerController extends Controller
         return view('Customer::user', compact('user'));
     }
 
-    public function exportxl()
-    {
-        return Excel::download(new CustomersExport, 'customers.xlsx');
-    }
-
     public function getXlimport()
     {
         return view('Customer::get_xlfile');
@@ -217,15 +212,6 @@ class CustomerController extends Controller
         Excel::import(new CustomersImport, $filePath);
 
         return Redirect::route('customers.index');
-    }
-
-    public function generatePdf()
-    {
-        $data = Customer::all();
-
-        $pdf  = Pdf::loadView('Customer::exportpdf', compact('data'));
-
-        return $pdf->download('customers.pdf');
     }
 
     public function messageBox()
