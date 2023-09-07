@@ -8,35 +8,51 @@
                 Message Box
             </div>
             <div class="col-md-12 d-flex">
-                <form class="form col-md-6" action="<?php echo e(route('downloadExportxl')); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <?php echo method_field('post'); ?>
-                    <input type="hidden" id="district_input" value="" name="district">
-                    <input type="hidden" id="thana_input" value="" name="thana">
-                    <input type="hidden" id="blood_group_input" value="" name="blood_group">
-                    <textarea name="message" class="form-control" rows="10"></textarea>
-                    <div class="col-md-12 d-flex justify-content-center">
-                        <!-- <input type="submit" class="btn btn-secondary mt-2" value="Send"> -->
-                        <button type="submit" name="send-button" class="btn btn-secondary mt-2">Send</button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 row">
+                        <div class="col-md-12">
+                                <h6>Division</h6>
+                                <form action=""  method="">
+                                    <div id="checkbox-division">
+                                    <?php $__currentLoopData = $divisions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $division): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <input type="checkbox" name="division[]" class="check-division" value="<?php echo e($division->id); ?>"> <?php echo e($division->name); ?> <br>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>District</h6>
+                                <form action="" method="">
+                                    <div id="checkbox-district">
+                                    <input type="checkbox" name="district[]" class="unique-district" id="check-district" value="Dhaka"> Dhaka <br>
+                                    </div>
+                                    <!-- <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <input type="checkbox" name="district[]" class="check-district" id="check-district" value="<?php echo e($district->name); ?>"> <?php echo e($district->name); ?> <br>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
+                                </form>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>Thana</h6>
+                                <form action=""  method="">
+                                    <div id="checkbox-thana">
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <form class="form col-md-6" action="<?php echo e(route('downloadExportxl')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('post'); ?>
+                            <input type="hidden" id="district_input" value="" name="district">
+                            <input type="hidden" id="thana_input" value="" name="thana">
+                            <input type="hidden" id="blood_group_input" value="" name="blood_group">
+                            <textarea name="message" class="form-control" rows="10"></textarea>
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <button type="submit" name="send-button" class="btn btn-secondary mt-2">Send</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-                <div class="col-md-6  justify-content-center">
-                    <h5>Filter:</h5>
-                    <select name="district" id="district" class="ml-1 mr-1">
-                        <option value="">District</option>
-                        <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($customer->district); ?>"><?php echo e($customer->district); ?></option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </select>
-                    <select name="thana" id="thana" class="ml-1 mr-1">
-                        <option value="">Thana</option>
-                    </select>
-                    <select name="blood_group" id="blood_group" class="ml-1 mr-1">
-                        <option value="">Blood Group</option>
-                        <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($customer->blood_group); ?>"><?php echo e($customer->blood_group); ?></option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </select>
                 </div>
             </div>
         </div>
@@ -51,111 +67,83 @@
         var thana = ""
         var blood_group = ""
         var allData = ""
+        var selectedDistrict = []
+        var fhtml=""
+        var selectedDivision = []
+        var dhtml=""
 
-        $('#district').on('change', function() {
-            district = this.value;
-            var html = "";
-            var blood_group = "";
-            var tbody = "";
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district
-                },
-                success: function(data) {
-                    allData = data;
-                    $('#district_input').val(district);
-                    html += "<option value=''>Thana</option>"
-                    data.forEach(item => {
-                        if (district != "") {
-                            html += `<option value='${item.thana}'>${item.thana}</option>`
-                        }
-                        $('#thana').html(html)
+        var itemValue = ""
 
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
+        $(".check-division").on("change", function() {
+            selectedDivision = []
+            dhtml=""
+            updateSelectedDivisions();
+            
         });
 
-        $('#thana').on('change', function() {
-            thana = this.value;
-            var html = "";
-            var tbody = "";
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district,
-                    'thana': thana
-                },
-                success: function(data) {
-                    allData = data;
-                    $('#thana_input').val(thana);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
+        function updateSelectedDivisions() {
+            
+            $(".check-division:checked").each(function() {
+                selectedDivision.push($(this).val());
             });
-        })
+            selectedDivision.forEach(item => {
+                $.ajax({
+                    url: `http://localhost/new-project/public/filter_division`,
+                    method: "POST",
+                    data: {
+                        'division': item
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        data.forEach(item => {
+                            itemValue+=item.name;
+                            dhtml+= `<input type="checkbox" name="district[]" class="unique-district" value="${item.name}"> ${item.name} <br>`
+                            $('#checkbox-district').html(dhtml);
+                        })
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+                
+            })
+        }
 
-        $('#blood_group').on('change', function() {
-            var html = "";
-            var tbody = "";
-            blood_group = this.value;
+        $(".unique-district").on("click", function() {
+            selectedDistrict = []
+            fhtml=""
 
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district,
-                    'thana': thana,
-                    'blood_group': blood_group
-                },
-                success: function(data) {
-                    allData = data;
-                    $('#blood_group_input').val(blood_group);
+            updateSelectedItems();
+            
+        });
 
-                    data.forEach(item => {
-
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
+        function updateSelectedItems() {
+            $(".unique-district:checked").each(function() {
+                selectedDistrict.push($(this).val());
             });
-        })
-
-
-        // $('#send-button').on('click', function(e) {
-        //     e.preventDefault();
-        //     var message = $('#message').value;
-        //     allData.forEach(item => {
-        //         $.ajax({
-        //             url: `http://localhost/new-project/public/send-sms`,
-        //             method: "POST",
-        //             data: {
-        //                 'phone': item.phone,
-        //                 'district': district,
-        //                 'thana': thana,
-        //                 'blood_group': blood_group,
-        //                 'message': message,
-        //             },
-        //             success: function(data) {
-        //                 console.log("successfully send");
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error(error);
-        //             }
-        //         });
-        //     })
-        // })
-
-
-
+            selectedDistrict.forEach(item => {
+                $.ajax({
+                    url: `http://localhost/new-project/public/filter_customer`,
+                    method: "POST",
+                    data: {
+                        'district': item
+                    },
+                    success: function(data) {
+                        allData = data;
+                        //$('#district_input').val(district);
+                        data.forEach(item => {
+                            // console.log(item);
+                            fhtml+= `<input type="checkbox" name="district[]" class="thana" value="${item.thana}"> ${item.thana} <br>`
+                            $('#checkbox-thana').html(fhtml);
+                        })
+                    },
+                    error: function(xhr, status, error){
+                        console.error(error);
+                    }
+                });
+                
+            })
+        }
     })
 </script>
 <?php $__env->stopSection(); ?>

@@ -6,7 +6,10 @@ use App\Exports\CustomersExport;
 use App\Http\Controllers\Controller;
 use App\Imports\CustomersImport;
 use App\Mail\MyCustomEmail;
+use App\Models\District;
+use App\Models\Division;
 use App\Models\User;
+use App\Modules\Customer\Models\BloodGroup;
 use App\Modules\Customer\Models\Customer;
 use App\Modules\Customer\Models\Message;
 use Illuminate\Http\Request;
@@ -28,7 +31,8 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return view('Customer::index', compact('customers'));
+        $blood_groups = BloodGroup::all();
+        return view('Customer::index', ['customers'=>$customers, 'blood_groups'=>$blood_groups]);
     }
 
     /**
@@ -178,21 +182,6 @@ class CustomerController extends Controller
         return Redirect::route('deleted');
     }
 
-    // public function filterCustomer(Request $request){
-    //     $district = $request->district;
-    //     $thana = $request->thana;
-    //     $filter_district = DB::select("select * from customers where district='$district'");
-    //     $filter_thana = DB::select("select * from customers where thana='$thana'");
-
-    //     if($filter_district != null){
-    //         $customers = $filter_district;
-    //         return view('Customer::index', compact('customers'));
-    //     }elseif($filter_thana != null){
-    //         $customers = $filter_thana;
-    //         return view('Customer::index', compact('customers'));
-    //     }
-    // }
-
     public function person($email)
     {
         $user = User::where('email', $email)->first();
@@ -217,7 +206,9 @@ class CustomerController extends Controller
     public function messageBox()
     {
         $customers = Customer::all();
-        return view('Customer::message_send', compact('customers'));
+        $districts = District::all();
+        $divisions = Division::all();
+        return view('Customer::message_send', compact('customers', 'divisions'), compact('districts'));
     }
     public function indMsgBox(){
         return view('Customer::ind_msg_send');

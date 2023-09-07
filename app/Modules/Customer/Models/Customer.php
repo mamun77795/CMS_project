@@ -22,4 +22,5 @@ class Customer extends Model
         'company',
         'notes',
 ];
+
 }

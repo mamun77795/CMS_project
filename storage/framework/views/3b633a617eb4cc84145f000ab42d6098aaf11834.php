@@ -40,8 +40,8 @@
             </select>
             <select name="blood_group" id="blood_group" class="ml-1 mr-1">
                 <option value="">Blood Group</option>
-                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($customer->blood_group); ?>"><?php echo e($customer->blood_group); ?></option>
+                <?php $__currentLoopData = $blood_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $blood_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($blood_group->name); ?>"><?php echo e($blood_group->name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>

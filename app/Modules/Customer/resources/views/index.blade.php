@@ -40,8 +40,8 @@
             </select>
             <select name="blood_group" id="blood_group" class="ml-1 mr-1">
                 <option value="">Blood Group</option>
-                @foreach($customers as $customer)
-                <option value="{{$customer->blood_group}}">{{$customer->blood_group}}</option>
+                @foreach($blood_groups as $blood_group)
+                <option value="{{$blood_group->name}}">{{$blood_group->name}}</option>
                 @endforeach
             </select>
         </div>

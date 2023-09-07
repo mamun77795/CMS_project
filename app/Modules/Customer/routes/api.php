@@ -11,3 +11,4 @@ use Illuminate\Support\Facades\Route;
 // ]);
 
 Route::post('/filter_customer', [FilterController::class,'filterCustomer'])->name('filterCustomer');
+Route::post('/filter_division', [FilterController::class,'filterDivision'])->name('filterDivision');

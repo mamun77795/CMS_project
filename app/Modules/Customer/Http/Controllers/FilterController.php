@@ -14,11 +14,10 @@ use Maatwebsite\Excel\Facades\Excel;
 class FilterController extends Controller
 {
     public $data;
-
+    public $division;
     public $district;
     public $thana;
     public $blood_group;
-
 
     public function filterCustomer(Request $request)
     {
@@ -64,6 +63,15 @@ class FilterController extends Controller
                 }
             }
             return 'Your SMS sent successfully! ' . $sms;
+        }
+    }
+
+    public function filterDivision(Request $request){
+        $this->division = $request->division;
+        if($this->division != null){
+            $district = DB::select("select * from districts where division_id='$this->division'");
+            $this->data= $district;
+            return response()->json($this->data);
         }
     }
 
