@@ -8,6 +8,7 @@ use App\Imports\CustomersImport;
 use App\Mail\MyCustomEmail;
 use App\Models\District;
 use App\Models\Division;
+use App\Models\Thana;
 use App\Models\User;
 use App\Modules\Customer\Models\BloodGroup;
 use App\Modules\Customer\Models\Customer;
@@ -30,9 +31,13 @@ class CustomerController extends Controller
 
     public function index()
     {
+
         $customers = Customer::all();
         $blood_groups = BloodGroup::all();
-        return view('Customer::index', ['customers'=>$customers, 'blood_groups'=>$blood_groups]);
+        $districts = District::all();
+
+        //return $customers;
+        return view('Customer::index', ['customers' => $customers, 'blood_groups' => $blood_groups, 'districts'=>$districts]);
     }
 
     /**
@@ -43,7 +48,10 @@ class CustomerController extends Controller
     public function create()
     {
         $customer = "";
-        return view('Customer::crmform', compact('customer'));
+        $districts = District::all();
+        $thanas = Thana::all();
+
+        return view('Customer::crmform', compact('customer', 'districts', 'thanas'));
     }
 
     /**
@@ -60,11 +68,7 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'street' => 'required',
-            'thana' => 'required',
             'district' => 'required',
-            'post_code' => 'required',
-            'reference' => 'required',
-            'blood_group' => 'required',
         ]);
 
         $customer = new Customer();
@@ -102,7 +106,9 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::find($id);
-        return view('Customer::crmform', compact('customer'));
+        $districts = District::all();
+        $thanas = Thana::all();
+        return view('Customer::crmform', compact('customer', 'districts', 'thanas'));
     }
 
     /**
@@ -120,9 +126,7 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'street' => 'required',
-            'thana' => 'required',
             'district' => 'required',
-            'blood_group' => 'required',
         ]);
 
         $customer = Customer::find($customer->id);
@@ -206,11 +210,13 @@ class CustomerController extends Controller
     public function messageBox()
     {
         $customers = Customer::all();
-        $districts = District::all();
+        $districts = [];
         $divisions = Division::all();
-        return view('Customer::message_send', compact('customers', 'divisions'), compact('districts'));
+        $ids = [];
+        return view('Customer::message_send', compact('customers', 'divisions'), compact('districts', 'ids'));
     }
-    public function indMsgBox(){
+    public function indMsgBox()
+    {
         return view('Customer::ind_msg_send');
     }
 
@@ -233,5 +239,4 @@ class CustomerController extends Controller
         $email = new MyCustomEmail;
         Mail::to($mailaddress)->send($email);
     }
-
 }

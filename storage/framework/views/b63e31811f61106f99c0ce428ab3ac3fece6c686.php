@@ -45,11 +45,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="thana">Thana</label>
-                                <input class="form-control" type="text" id="thana" name="thana" value="<?php if($customer != ''): ?><?php echo e($customer->thana); ?><?php endif; ?>">
+                                <select name="thana" id="" class="form-control">
+                                    <?php $__currentLoopData = $thanas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $thana): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($thana->name); ?>" <?php if($customer != ''): ?> <?php if($customer->thana_id == $thana->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($thana->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="district">District</label>
-                                <input class="form-control" type="text" id="district" name="district" value="<?php if($customer != ''): ?><?php echo e($customer->district); ?><?php endif; ?>">
+                                <select name="district" id="" class="form-control">
+                                    <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($district->name); ?>" <?php if($customer != ''): ?> <?php if($customer->district_id == $district->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($district->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="post_code">Post Code:</label>
@@ -57,7 +65,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="reference">Reference</label>
-                                <input type="text" class="form-control" id="reference" value="<?php if($customer != ''): ?><?php echo e($customer->reference); ?><?php endif; ?>" name="reference" rows="4" cols="50" />
+                                <input type="text" name="reference" class="form-control" id="reference" value="<?php if($customer != ''): ?><?php echo e($customer->reference); ?><?php endif; ?>" name="reference" rows="4" cols="50" />
                             </div>
                             <!-- Submit Button -->
                             <div class="btn-group">

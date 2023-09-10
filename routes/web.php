@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckLoginMiddleware;
+use App\Modules\Customer\Http\Controllers\FilterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +34,9 @@ Route::middleware(['check'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get("/logout", [AuthController::class, 'logout'])->name('logout');
 });
+
+
+Route::get('/filtering', [FilterController::class, 'getDivision'])->name('getDivision');
+Route::get('/filter-districts', [FilterController::class, 'getDistricts'])->name('getDistricts');
+Route::get('/filter-thanas', [FilterController::class, 'getThanas'])->name('getThanas');
+

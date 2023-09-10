@@ -31,8 +31,8 @@
             <h5>Filter:</h5>
             <select name="district" id="district" class="ml-1 mr-1">
                 <option value="">District</option>
-                @foreach($customers as $customer)
-                <option value="{{$customer->district}}">{{$customer->district}}</option>
+                @foreach($districts as $district)
+                <option value="{{$district->district_id}}">{{$district->name}}</option>
                 @endforeach
             </select>
             <select name="thana" id="thana" class="ml-1 mr-1">
@@ -113,7 +113,7 @@
                     $('#district_input').val(district);
                     html += "<option value=''>Thana</option>"
                     data.forEach(item => {
-                        if (district != "") {
+                        if (district != null) {
                             html += `<option value='${item.thana}'>${item.thana}</option>`
                         }
                         $('#thana').html(html)

@@ -31,8 +31,8 @@
             <h5>Filter:</h5>
             <select name="district" id="district" class="ml-1 mr-1">
                 <option value="">District</option>
-                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($customer->district); ?>"><?php echo e($customer->district); ?></option>
+                <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($district->district_id); ?>"><?php echo e($district->name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
             <select name="thana" id="thana" class="ml-1 mr-1">
@@ -115,7 +115,7 @@
                     $('#district_input').val(district);
                     html += "<option value=''>Thana</option>"
                     data.forEach(item => {
-                        if (district != "") {
+                        if (district != null) {
                             html += `<option value='${item.thana}'>${item.thana}</option>`
                         }
                         $('#thana').html(html)

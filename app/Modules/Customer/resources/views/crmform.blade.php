@@ -45,11 +45,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="thana">Thana</label>
-                                <input class="form-control" type="text" id="thana" name="thana" value="@if($customer != ''){{ $customer->thana }}@endif">
+                                <select name="thana" id="" class="form-control">
+                                    @foreach($thanas as $thana)
+                                        <option value="{{$thana->name}}" @if($customer != '') @if($customer->thana_id == $thana->id) selected  @endif @endif >{{$thana->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="district">District</label>
-                                <input class="form-control" type="text" id="district" name="district" value="@if($customer != ''){{ $customer->district }}@endif">
+                                <select name="district" id="" class="form-control">
+                                    @foreach($districts as $district)
+                                        <option value="{{$district->name}}" @if($customer != '') @if($customer->district_id == $district->id) selected  @endif @endif >{{$district->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="post_code">Post Code:</label>
@@ -57,7 +65,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="reference">Reference</label>
-                                <input type="text" class="form-control" id="reference" value="@if($customer != ''){{ $customer->reference }}@endif" name="reference" rows="4" cols="50" />
+                                <input type="text" name="reference" class="form-control" id="reference" value="@if($customer != ''){{ $customer->reference }}@endif" name="reference" rows="4" cols="50" />
                             </div>
                             <!-- Submit Button -->
                             <div class="btn-group">

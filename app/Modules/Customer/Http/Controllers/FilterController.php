@@ -4,6 +4,9 @@ namespace App\Modules\Customer\Http\Controllers;
 
 use App\Exports\CustomersExport;
 use App\Http\Controllers\Controller;
+use App\Models\District;
+use App\Models\Division;
+use App\Models\Thana;
 use App\Modules\Customer\Models\Message;
 use Barryvdh\DomPDF\Facade\Pdf;
 use HelperOne;
@@ -32,7 +35,6 @@ class FilterController extends Controller
 
     public function downloadExportxl(Request $request)
     {
-
         $this->district = $request->district;
         $this->thana = $request->thana;
         $this->blood_group = $request->blood_group;
@@ -55,7 +57,6 @@ class FilterController extends Controller
             $customers = $this->data;
 
             $sms = $request->message;
-
             foreach ($customers as $customer) {
                 $customer_phone = $customer->phone;
                 if ($customer_phone != null) {
@@ -65,16 +66,6 @@ class FilterController extends Controller
             return 'Your SMS sent successfully! ' . $sms;
         }
     }
-
-    public function filterDivision(Request $request){
-        $this->division = $request->division;
-        if($this->division != null){
-            $district = DB::select("select * from districts where division_id='$this->division'");
-            $this->data= $district;
-            return response()->json($this->data);
-        }
-    }
-
 
     public function ConditionValue()
     {
@@ -108,6 +99,66 @@ class FilterController extends Controller
 
             $allData = DB::select("select * from customers");
             $this->data = $allData;
+        }
+    }
+
+
+
+
+    public $alldistricts = [];
+    public $allthana = [];
+    public $ids = [];
+    public $dids = [];
+    public $request;
+
+    public function getDivision()
+    {
+
+        $divisions = Division::all();
+        $districts = District::all();
+        $thanas = Thana::all();
+        $ids = $this->ids;
+        return view('Customer::message_send', compact('divisions', 'ids'));
+    }
+
+    public function getDistricts(Request $request)
+    {
+        $this->request = $request;
+        $divisions = Division::all();
+        //$districts = District::all();
+        $thanas = Thana::all();
+        if (!isset($request['district-checkboxes'])) {
+            $this->doWork1();
+        }
+
+        if (isset($request['district-checkboxes'])) {
+            $this->doWork1();
+
+            $options = $request['district-checkboxes'];
+            foreach ($options as $did) {
+                $thanas = DB::select("select * from thanas where district_id='$did'");
+                array_push($this->allthana, $thanas);
+                array_push($this->dids, $did);
+            }
+        }
+
+        $districts = $this->alldistricts;
+        $thanas = $this->allthana;
+        $ids = $this->ids;
+        $dids = $this->dids;
+        $ids = $this->ids;
+        // return $request;
+        return view('Customer::message_send', compact('divisions', 'districts', 'thanas', 'ids', 'dids'));
+    }
+
+    public function doWork1(){
+        if (isset($this->request['division-checkboxes'])) {
+            $options = $this->request['division-checkboxes'];
+            foreach ($options as $id) {
+                $districts = DB::select("select * from districts where division_id='$id'");
+                array_push($this->alldistricts, $districts);
+                array_push($this->ids, $id);
+            }
         }
     }
 }
