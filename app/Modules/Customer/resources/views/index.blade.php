@@ -17,35 +17,40 @@
 
             <div class="col-md-12 d-flex justify-content-end">
                 <h6 class="mt-4">Download:</h6>
-                <input type="hidden" id="district_input" value="" name="district">
-                <input type="hidden" id="thana_input" value="" name="thana">
-                <input type="hidden" id="blood_group_input" value="" name="blood_group">
+                <input type="hidden" id="district_input" @if(isset($district_id)) value="{{$district_id}}" @else value="" @endif name="district_id">
+                <input type="hidden" id="thana_input" @if(isset($thana_id)) value="{{$thana_id}}" @else value="" @endif name="thana_id">
+                <input type="hidden" id="blood_group_input" @if(isset($blood_group_id)) value="{{$blood_group_id}}" @else value="" @endif name="blood_group_id">
                 <button type="submit" name="btn_excel" style="border: none; background:none;" class="mt-3 ml-1"><img src="{{asset('assets/dist/img/xlicon.png')}}" style="height: 22px; width:22px;" /></button>
                 <button type="submit" name="btn_pdf" style="border: none; background:none;" class="mt-3 ml-1"><img src="{{asset('assets/dist/img/pdficon.png')}}" style="height: 22px; width:22px;" /></button>
             </div>
         </form>
     </div>
     <div class="col-md-12">
-
+        <form id="filter_form" action="{{route('filterCustomer')}}" method="POST" >
+            @csrf
+            @method('POST')
         <div class="d-flex justify-content-center">
             <h5>Filter:</h5>
-            <select name="district" id="district" class="ml-1 mr-1">
+            <select name="district_id" id="district" class="ml-1 mr-1">
                 <option value="">District</option>
                 @foreach($districts as $district)
-                <option value="{{$district->district_id}}">{{$district->name}}</option>
+                <option value="{{$district->id}}" @if(isset($district_id)) @if($district->id == $district_id) selected @endif @endif>{{$district->name}}</option>
                 @endforeach
             </select>
-            <select name="thana" id="thana" class="ml-1 mr-1">
-                <option>Thana</option>
+            <select name="thana_id" id="thana" class="ml-1 mr-1">
+                <option value="">Thana</option>
+                @foreach($thanas as $thana)
+                <option value="{{$thana->id}}" @if(isset($thana_id)) @if($thana->id == $thana_id) selected @endif @endif>{{$thana->name}}</option>
+                @endforeach
             </select>
             <select name="blood_group" id="blood_group" class="ml-1 mr-1">
                 <option value="">Blood Group</option>
                 @foreach($blood_groups as $blood_group)
-                <option value="{{$blood_group->name}}">{{$blood_group->name}}</option>
+                <option value="{{$blood_group->id}}" @if(isset($blood_group_id)) @if($blood_group->id == $blood_group_id) selected @endif @endif>{{$blood_group->name}}</option>
                 @endforeach
             </select>
         </div>
-
+        </form>
     </div>
     <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
@@ -94,165 +99,18 @@
 @section('script')
 <script>
     $(function() {
-        var district = ""
-        var thana = ""
-        var blood_group = ""
 
-        $('#district').on('change', function() {
-            district = this.value;
-            var html = "";
-            var blood_group = "";
-            var tbody = "";
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district
-                },
-                success: function(data) {
-                    $('#district_input').val(district);
-                    html += "<option value=''>Thana</option>"
-                    data.forEach(item => {
-                        if (district != null) {
-                            html += `<option value='${item.thana}'>${item.thana}</option>`
-                        }
-                        $('#thana').html(html)
-                        tbody += "<tr>"
-                        tbody += "<td>"
-                        tbody += `<b>First Name: </b>${item.first_name}<br>`
-                        tbody += `<b>Last Name: </b>${item.last_name}<br>`
-                        tbody += `<b>Email: </b>${item.email}<br>`
-                        tbody += `<b>Phone: ${item.phone}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Street: </b>${item.street}<br>`
-                        tbody += `<b>Thana: </b>${item.thana}<br>`
-                        tbody += `<b>District: </b>${item.district}<br>`
-                        tbody += `<b>Post Code: ${item.post_code}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Blood Group: </b>${item.blood_group}<br>`
-                        tbody += `<b>Reference: </b>${item.reference}<br>`
-                        tbody += "</td>"
-                        tbody += `<td style="display: flex;">`
-                        tbody += `<a href="{{url('customers/${item.id}/edit')}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                        tbody += `<form action="{{url('customers/${item.id}')}}" method="post">`
-                        tbody += `@csrf`
-                        tbody += `@method('delete')`
-                        tbody += `<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
-                        tbody += `</form>`
-                        tbody += "</td>"
-                        tbody += "</tr>"
-                        $('#tbody').html(tbody)
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
+        $('#district').change(function() {
+            $('#filter_form').submit();
         });
 
+        $('#thana').change(function() {
+            $('#filter_form').submit();
+        });
 
-        $('#thana').on('change', function() {
-            thana = this.value;
-            var html = "";
-            var tbody = "";
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district,
-                    'thana': thana
-                },
-                success: function(data) {
-                    $('#thana_input').val(thana);
-                    data.forEach(item => {
-                        tbody += "<tr>"
-                        tbody += "<td>"
-                        tbody += `<b>First Name: </b>${item.first_name}<br>`
-                        tbody += `<b>Last Name: </b>${item.last_name}<br>`
-                        tbody += `<b>Email: </b>${item.email}<br>`
-                        tbody += `<b>Phone: ${item.phone}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Street: </b>${item.street}<br>`
-                        tbody += `<b>Thana: </b>${item.thana}<br>`
-                        tbody += `<b>District: </b>${item.district}<br>`
-                        tbody += `<b>Post Code: ${item.post_code}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Blood Group: </b>${item.blood_group}<br>`
-                        tbody += `<b>Reference: </b>${item.reference}<br>`
-                        tbody += "</td>"
-                        tbody += `<td style="display: flex;">`
-                        tbody += `<a href="{{url('customers/${item.id}/edit')}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                        tbody += `<form action="{{url('customers/${item.id}')}}" method="post">`
-                        tbody += `@csrf`
-                        tbody += `@method('delete')`
-                        tbody += `<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
-                        tbody += `</form>`
-                        tbody += "</td>"
-                        tbody += "</tr>"
-                        $('#tbody').html(tbody)
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        })
-
-        $('#blood_group').on('change', function() {
-            var html = "";
-            var tbody = "";
-            blood_group = this.value;
-
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district,
-                    'thana': thana,
-                    'blood_group': blood_group
-                },
-                success: function(data) {
-                    $('#blood_group_input').val(blood_group);
-
-                    data.forEach(item => {
-                        tbody += "<tr>"
-                        tbody += "<td>"
-                        tbody += `<b>First Name: </b>${item.first_name}<br>`
-                        tbody += `<b>Last Name: </b>${item.last_name}<br>`
-                        tbody += `<b>Email: </b>${item.email}<br>`
-                        tbody += `<b>Phone: ${item.phone}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Street: </b>${item.street}<br>`
-                        tbody += `<b>Thana: </b>${item.thana}<br>`
-                        tbody += `<b>District: </b>${item.district}<br>`
-                        tbody += `<b>Post Code: ${item.post_code}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Blood Group: </b>${item.blood_group}<br>`
-                        tbody += `<b>Reference: </b>${item.reference}<br>`
-                        tbody += "</td>"
-                        tbody += `<td style="display: flex;">`
-                        tbody += `<a href="{{url('customers/${item.id}/edit')}}" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                        tbody += `<form action="{{url('customers/${item.id}')}}" method="post">`
-                        tbody += `@csrf`
-                        tbody += `@method('delete')`
-                        tbody += `<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
-                        tbody += `</form>`
-                        tbody += "</td>"
-                        tbody += "</tr>"
-                        $('#tbody').html(tbody)
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        })
+        $('#blood_group').change(function() {
+            $('#filter_form').submit();
+        });
 
     })
 </script>

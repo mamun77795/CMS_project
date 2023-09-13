@@ -34,8 +34,13 @@
                                 <input class="form-control" type="tel" id="phone" name="phone" value="@if($customer != ''){{ $customer->phone }}@endif">
                             </div>
                             <div class="form-group">
-                                <label for="blood_group">Blood Group: </label>
-                                <input class="form-control" type="text" id="blood_group" name="blood_group" value="@if($customer != ''){{ $customer->blood_group }}@endif">
+                            <label for="blood_group_id">Blood Group</label>
+                                <select name="blood_group_id" id="" class="form-control">
+                                        <option value="">Select</option>
+                                    @foreach($blood_groups as $blood_group)
+                                        <option value="{{$blood_group->id}}" @if($customer != '') @if($customer->blood_group_id == $blood_group->id) selected  @endif @endif >{{$blood_group->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -45,17 +50,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="thana">Thana</label>
-                                <select name="thana" id="" class="form-control">
+                                <select name="thana_id" id="" class="form-control">
+                                    <option value="">Select</option>
                                     @foreach($thanas as $thana)
-                                        <option value="{{$thana->name}}" @if($customer != '') @if($customer->thana_id == $thana->id) selected  @endif @endif >{{$thana->name}}</option>
+                                        <option value="{{$thana->id}}" @if($customer != '') @if($customer->thana_id == $thana->id) selected  @endif @endif >{{$thana->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="district">District</label>
-                                <select name="district" id="" class="form-control">
+                                <select name="district_id" id="" class="form-control">
+                                    <option value="">Select</option>
                                     @foreach($districts as $district)
-                                        <option value="{{$district->name}}" @if($customer != '') @if($customer->district_id == $district->id) selected  @endif @endif >{{$district->name}}</option>
+                                        <option value="{{$district->id}}" @if($customer != '') @if($customer->district_id == $district->id) selected  @endif @endif >{{$district->name}}</option>
                                     @endforeach
                                 </select>
                             </div>

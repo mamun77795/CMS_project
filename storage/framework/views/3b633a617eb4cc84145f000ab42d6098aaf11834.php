@@ -17,35 +17,40 @@
 
             <div class="col-md-12 d-flex justify-content-end">
                 <h6 class="mt-4">Download:</h6>
-                <input type="hidden" id="district_input" value="" name="district">
-                <input type="hidden" id="thana_input" value="" name="thana">
-                <input type="hidden" id="blood_group_input" value="" name="blood_group">
+                <input type="hidden" id="district_input" <?php if(isset($district_id)): ?> value="<?php echo e($district_id); ?>" <?php else: ?> value="" <?php endif; ?> name="district_id">
+                <input type="hidden" id="thana_input" <?php if(isset($thana_id)): ?> value="<?php echo e($thana_id); ?>" <?php else: ?> value="" <?php endif; ?> name="thana_id">
+                <input type="hidden" id="blood_group_input" <?php if(isset($blood_group_id)): ?> value="<?php echo e($blood_group_id); ?>" <?php else: ?> value="" <?php endif; ?> name="blood_group_id">
                 <button type="submit" name="btn_excel" style="border: none; background:none;" class="mt-3 ml-1"><img src="<?php echo e(asset('assets/dist/img/xlicon.png')); ?>" style="height: 22px; width:22px;" /></button>
                 <button type="submit" name="btn_pdf" style="border: none; background:none;" class="mt-3 ml-1"><img src="<?php echo e(asset('assets/dist/img/pdficon.png')); ?>" style="height: 22px; width:22px;" /></button>
             </div>
         </form>
     </div>
     <div class="col-md-12">
-
+        <form id="filter_form" action="<?php echo e(route('filterCustomer')); ?>" method="POST" >
+            <?php echo csrf_field(); ?>
+            <?php echo method_field('POST'); ?>
         <div class="d-flex justify-content-center">
             <h5>Filter:</h5>
-            <select name="district" id="district" class="ml-1 mr-1">
+            <select name="district_id" id="district" class="ml-1 mr-1">
                 <option value="">District</option>
                 <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($district->district_id); ?>"><?php echo e($district->name); ?></option>
+                <option value="<?php echo e($district->id); ?>" <?php if(isset($district_id)): ?> <?php if($district->id == $district_id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($district->name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
-            <select name="thana" id="thana" class="ml-1 mr-1">
-                <option>Thana</option>
+            <select name="thana_id" id="thana" class="ml-1 mr-1">
+                <option value="">Thana</option>
+                <?php $__currentLoopData = $thanas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $thana): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($thana->id); ?>" <?php if(isset($thana_id)): ?> <?php if($thana->id == $thana_id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($thana->name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
             <select name="blood_group" id="blood_group" class="ml-1 mr-1">
                 <option value="">Blood Group</option>
                 <?php $__currentLoopData = $blood_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $blood_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($blood_group->name); ?>"><?php echo e($blood_group->name); ?></option>
+                <option value="<?php echo e($blood_group->id); ?>" <?php if(isset($blood_group_id)): ?> <?php if($blood_group->id == $blood_group_id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($blood_group->name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
-
+        </form>
     </div>
     <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
@@ -96,165 +101,18 @@
 <?php $__env->startSection('script'); ?>
 <script>
     $(function() {
-        var district = ""
-        var thana = ""
-        var blood_group = ""
 
-        $('#district').on('change', function() {
-            district = this.value;
-            var html = "";
-            var blood_group = "";
-            var tbody = "";
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district
-                },
-                success: function(data) {
-                    $('#district_input').val(district);
-                    html += "<option value=''>Thana</option>"
-                    data.forEach(item => {
-                        if (district != null) {
-                            html += `<option value='${item.thana}'>${item.thana}</option>`
-                        }
-                        $('#thana').html(html)
-                        tbody += "<tr>"
-                        tbody += "<td>"
-                        tbody += `<b>First Name: </b>${item.first_name}<br>`
-                        tbody += `<b>Last Name: </b>${item.last_name}<br>`
-                        tbody += `<b>Email: </b>${item.email}<br>`
-                        tbody += `<b>Phone: ${item.phone}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Street: </b>${item.street}<br>`
-                        tbody += `<b>Thana: </b>${item.thana}<br>`
-                        tbody += `<b>District: </b>${item.district}<br>`
-                        tbody += `<b>Post Code: ${item.post_code}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Blood Group: </b>${item.blood_group}<br>`
-                        tbody += `<b>Reference: </b>${item.reference}<br>`
-                        tbody += "</td>"
-                        tbody += `<td style="display: flex;">`
-                        tbody += `<a href="<?php echo e(url('customers/${item.id}/edit')); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                        tbody += `<form action="<?php echo e(url('customers/${item.id}')); ?>" method="post">`
-                        tbody += `<?php echo csrf_field(); ?>`
-                        tbody += `<?php echo method_field('delete'); ?>`
-                        tbody += `<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
-                        tbody += `</form>`
-                        tbody += "</td>"
-                        tbody += "</tr>"
-                        $('#tbody').html(tbody)
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
+        $('#district').change(function() {
+            $('#filter_form').submit();
         });
 
+        $('#thana').change(function() {
+            $('#filter_form').submit();
+        });
 
-        $('#thana').on('change', function() {
-            thana = this.value;
-            var html = "";
-            var tbody = "";
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district,
-                    'thana': thana
-                },
-                success: function(data) {
-                    $('#thana_input').val(thana);
-                    data.forEach(item => {
-                        tbody += "<tr>"
-                        tbody += "<td>"
-                        tbody += `<b>First Name: </b>${item.first_name}<br>`
-                        tbody += `<b>Last Name: </b>${item.last_name}<br>`
-                        tbody += `<b>Email: </b>${item.email}<br>`
-                        tbody += `<b>Phone: ${item.phone}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Street: </b>${item.street}<br>`
-                        tbody += `<b>Thana: </b>${item.thana}<br>`
-                        tbody += `<b>District: </b>${item.district}<br>`
-                        tbody += `<b>Post Code: ${item.post_code}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Blood Group: </b>${item.blood_group}<br>`
-                        tbody += `<b>Reference: </b>${item.reference}<br>`
-                        tbody += "</td>"
-                        tbody += `<td style="display: flex;">`
-                        tbody += `<a href="<?php echo e(url('customers/${item.id}/edit')); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                        tbody += `<form action="<?php echo e(url('customers/${item.id}')); ?>" method="post">`
-                        tbody += `<?php echo csrf_field(); ?>`
-                        tbody += `<?php echo method_field('delete'); ?>`
-                        tbody += `<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
-                        tbody += `</form>`
-                        tbody += "</td>"
-                        tbody += "</tr>"
-                        $('#tbody').html(tbody)
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        })
-
-        $('#blood_group').on('change', function() {
-            var html = "";
-            var tbody = "";
-            blood_group = this.value;
-
-            $.ajax({
-                url: `http://localhost/new-project/public/filter_customer`,
-                method: "POST",
-                data: {
-                    'district': district,
-                    'thana': thana,
-                    'blood_group': blood_group
-                },
-                success: function(data) {
-                    $('#blood_group_input').val(blood_group);
-
-                    data.forEach(item => {
-                        tbody += "<tr>"
-                        tbody += "<td>"
-                        tbody += `<b>First Name: </b>${item.first_name}<br>`
-                        tbody += `<b>Last Name: </b>${item.last_name}<br>`
-                        tbody += `<b>Email: </b>${item.email}<br>`
-                        tbody += `<b>Phone: ${item.phone}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Street: </b>${item.street}<br>`
-                        tbody += `<b>Thana: </b>${item.thana}<br>`
-                        tbody += `<b>District: </b>${item.district}<br>`
-                        tbody += `<b>Post Code: ${item.post_code}`
-                        tbody += "</td>"
-                        tbody += "<td>"
-                        tbody += `<b>Blood Group: </b>${item.blood_group}<br>`
-                        tbody += `<b>Reference: </b>${item.reference}<br>`
-                        tbody += "</td>"
-                        tbody += `<td style="display: flex;">`
-                        tbody += `<a href="<?php echo e(url('customers/${item.id}/edit')); ?>" ><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>`
-                        tbody += `<form action="<?php echo e(url('customers/${item.id}')); ?>" method="post">`
-                        tbody += `<?php echo csrf_field(); ?>`
-                        tbody += `<?php echo method_field('delete'); ?>`
-                        tbody += `<button type="submit" class="text-danger border-white"><i class="fas fa-trash"></i></button>`
-                        tbody += `</form>`
-                        tbody += "</td>"
-                        tbody += "</tr>"
-                        $('#tbody').html(tbody)
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        })
+        $('#blood_group').change(function() {
+            $('#filter_form').submit();
+        });
 
     })
 </script>

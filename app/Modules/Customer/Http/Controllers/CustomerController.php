@@ -32,12 +32,13 @@ class CustomerController extends Controller
     public function index()
     {
 
-        $customers = Customer::all();
+        $customers = DB::select("select * from customer_view");
         $blood_groups = BloodGroup::all();
         $districts = District::all();
+        $thanas = Thana::all();
 
         //return $customers;
-        return view('Customer::index', ['customers' => $customers, 'blood_groups' => $blood_groups, 'districts'=>$districts]);
+        return view('Customer::index', ['customers' => $customers, 'blood_groups' => $blood_groups, 'districts'=>$districts, 'thanas'=>$thanas]);
     }
 
     /**
@@ -50,8 +51,9 @@ class CustomerController extends Controller
         $customer = "";
         $districts = District::all();
         $thanas = Thana::all();
+        $blood_groups = BloodGroup::all();
 
-        return view('Customer::crmform', compact('customer', 'districts', 'thanas'));
+        return view('Customer::crmform', compact('customer', 'districts', 'thanas', 'blood_groups'));
     }
 
     /**
@@ -68,7 +70,6 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'street' => 'required',
-            'district' => 'required',
         ]);
 
         $customer = new Customer();
@@ -77,9 +78,9 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->street = $request->street;
-        $customer->thana = $request->thana;
-        $customer->district = $request->district;
-        $customer->blood_group = $request->blood_group;
+        $customer->thana_id = $request->thana_id;
+        $customer->district_id = $request->district_id;
+        $customer->blood_group_id = $request->blood_group_id;
         $customer->created_by = "Name: " . Session::get('sess_user_name') . ", Email: " . Session::get('sess_email');
         $customer->save();
 
@@ -108,7 +109,8 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $districts = District::all();
         $thanas = Thana::all();
-        return view('Customer::crmform', compact('customer', 'districts', 'thanas'));
+        $blood_groups = BloodGroup::all();
+        return view('Customer::crmform', compact('customer', 'districts', 'thanas','blood_groups'));
     }
 
     /**
@@ -126,7 +128,6 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'street' => 'required',
-            'district' => 'required',
         ]);
 
         $customer = Customer::find($customer->id);
@@ -135,14 +136,13 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->street = $request->street;
-        $customer->thana = $request->thana;
-        $customer->district = $request->district;
+        $customer->thana_id = $request->thana_id;
+        $customer->district_id = $request->district_id;
         $customer->post_code = $request->post_code;
         $customer->reference = $request->reference;
-        $customer->blood_group = $request->blood_group;
+        $customer->blood_group_id = $request->blood_group_id;
         $customer->updated_by = "Name: " . Session::get('sess_user_name') . ", Email: " . Session::get('sess_email');
         $customer->save();
-
         return Redirect::route('customers.index');
     }
 
@@ -212,31 +212,14 @@ class CustomerController extends Controller
         $customers = Customer::all();
         $districts = [];
         $divisions = Division::all();
+        $blood_groups = BloodGroup::all();
         $ids = [];
-        return view('Customer::message_send', compact('customers', 'divisions'), compact('districts', 'ids'));
+        $references = Customer::select('reference')->distinct()->get();
+        return view('Customer::message_send', compact('customers', 'divisions','references','blood_groups'), compact('districts', 'ids'));
     }
     public function indMsgBox()
     {
-        return view('Customer::ind_msg_send');
-    }
-
-    public function sendEmail()
-    {
-
-        $customers = Customer::all();
-
-        foreach ($customers as $customer) {
-            $mailaddress = $customer->email;
-            $this->mailAddress($mailaddress);
-        }
-
-        return 'Email sent successfully!';
-    }
-
-
-    public function mailAddress($mailaddress)
-    {
-        $email = new MyCustomEmail;
-        Mail::to($mailaddress)->send($email);
+        $messages = Message::all();
+        return view('Customer::ind_msg_send', compact('messages'));
     }
 }

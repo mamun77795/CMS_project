@@ -34,8 +34,13 @@
                                 <input class="form-control" type="tel" id="phone" name="phone" value="<?php if($customer != ''): ?><?php echo e($customer->phone); ?><?php endif; ?>">
                             </div>
                             <div class="form-group">
-                                <label for="blood_group">Blood Group: </label>
-                                <input class="form-control" type="text" id="blood_group" name="blood_group" value="<?php if($customer != ''): ?><?php echo e($customer->blood_group); ?><?php endif; ?>">
+                            <label for="blood_group_id">Blood Group</label>
+                                <select name="blood_group_id" id="" class="form-control">
+                                        <option value="">Select</option>
+                                    <?php $__currentLoopData = $blood_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $blood_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($blood_group->id); ?>" <?php if($customer != ''): ?> <?php if($customer->blood_group_id == $blood_group->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($blood_group->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -45,17 +50,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="thana">Thana</label>
-                                <select name="thana" id="" class="form-control">
+                                <select name="thana_id" id="" class="form-control">
+                                    <option value="">Select</option>
                                     <?php $__currentLoopData = $thanas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $thana): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($thana->name); ?>" <?php if($customer != ''): ?> <?php if($customer->thana_id == $thana->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($thana->name); ?></option>
+                                        <option value="<?php echo e($thana->id); ?>" <?php if($customer != ''): ?> <?php if($customer->thana_id == $thana->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($thana->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="district">District</label>
-                                <select name="district" id="" class="form-control">
+                                <select name="district_id" id="" class="form-control">
+                                    <option value="">Select</option>
                                     <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($district->name); ?>" <?php if($customer != ''): ?> <?php if($customer->district_id == $district->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($district->name); ?></option>
+                                        <option value="<?php echo e($district->id); ?>" <?php if($customer != ''): ?> <?php if($customer->district_id == $district->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($district->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>

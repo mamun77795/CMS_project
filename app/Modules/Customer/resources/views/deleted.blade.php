@@ -25,12 +25,12 @@
                     </td>
                     <td>
                         <b>Street: </b>{{$customer->street}} <br>
-                        <b>Thana: </b>{{$customer->thana}} <br>
-                        <b>District: </b>{{$customer->district}} <br>
+                        <b>Thana: </b>{{$customer->thana_id}} <br>
+                        <b>District: </b>{{$customer->district_id}} <br>
                         <b>Post Code: </b>{{$customer->post_code}}
                     </td>
                     <td>
-                        <b>Blood Group: </b>{{$customer->blood_group}} <br>
+                        <b>Blood Group: </b>{{$customer->blood_group_id}} <br>
                         <b>Reference: </b>{{$customer->reference}} <br>
                     </td>
                     <td>

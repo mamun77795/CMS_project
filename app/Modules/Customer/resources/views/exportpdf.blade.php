@@ -39,7 +39,6 @@
                     <th>Reference</th>
                     <th>Created By</th>
                     <th>Created at</th>
-                    <th>Updated at</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +56,6 @@
                     <td>{{$customer->reference}}</td>
                     <td>{{$customer->created_by}}</td>
                     <td>{{$customer->created_at}}</td>
-                    <td>{{$customer->updated_at}}</td>
                 </tr>
                 @endforeach
             </tbody>

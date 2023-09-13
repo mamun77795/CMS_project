@@ -35,6 +35,7 @@ Route::middleware(['check'])->group(function () {
     Route::get("/logout", [AuthController::class, 'logout'])->name('logout');
 });
 
+Route::post('/filter_customer', [FilterController::class,'filterCustomer'])->name('filterCustomer');
 
 Route::get('/filtering', [FilterController::class, 'getDivision'])->name('getDivision');
 Route::get('/filter-districts', [FilterController::class, 'getDistricts'])->name('getDistricts');

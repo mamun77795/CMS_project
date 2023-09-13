@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,6 +17,10 @@ class MyCustomEmail extends Mailable
      *
      * @return void
      */
+
+    public $subject;
+    public $with;
+
     public function __construct()
     {
         //
@@ -28,6 +33,8 @@ class MyCustomEmail extends Mailable
      */
     public function build()
     {
+
+        $emails = Mail::all();
         return $this
             ->from('elitepaint96@gmail.com')
             ->subject('Welcome to New Elite Software')

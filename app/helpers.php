@@ -1,5 +1,14 @@
 <?php
 
+if (!function_exists('getMailData')) {
+    function getDataFromDatabase() {
+        $data = \App\Models\Mail::all(); 
+
+        return $data;
+    }
+}
+
+
 function sendSMS($sms, $to)
 {
 

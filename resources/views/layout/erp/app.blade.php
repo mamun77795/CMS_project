@@ -176,13 +176,13 @@
                                 <li class="nav-item">
                                     <a href="{{route('messageBox')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Send SMS (All)</p>
+                                        <p>Create SMS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('indMsgBox')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Send SMS (Individual)</p>
+                                        <p>SMS report</p>
                                     </a>
                                 </li>
                             </ul>
