@@ -58,6 +58,7 @@
                 <th>Customer Information</th>
                 <th>Address</th>
                 <th>Additional Info</th>
+                <th>Reference</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -77,8 +78,14 @@
                     <b>Post Code: </b>{{$customer->post_code}}
                 </td>
                 <td>
-                    <b>Blood Group: </b>{{$customer->blood_group}} <br>
-                    <b>Reference: </b>{{$customer->reference}} <br>
+                    <b>Blood Group: </b> {{$customer->blood_group}} <br>
+                    <b>Date of Birth: </b> {{$customer->date_of_birth}} <br>
+                    <b>Marriage Date: </b> {{$customer->marriage_date}} <br>
+                    <b>Spouse Name: </b> {{$customer->spouse_name}} <br>
+                    <b>Children: </b> {{$customer->children}} <br>
+                </td>
+                <td>
+                  {{$customer->reference}}
                 </td>
                 <td style="display: flex;">
                     <a href="{{route('customers.edit', $customer->id)}}"><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>

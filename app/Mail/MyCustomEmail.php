@@ -38,8 +38,8 @@ class MyCustomEmail extends Mailable
         return $this
             ->from('elitepaint96@gmail.com')
             ->subject($emaildata->heading)
-            ->view('email.mail')
             ->attach(public_path("photo/"."$emaildata->attachement"))
+            ->view('email.mail')
             ->with([
                 'message' => 'This is a test email from Laravel!',
             ]);

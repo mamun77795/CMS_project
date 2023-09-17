@@ -32,7 +32,9 @@
                     {{$message->sms_type}}
                 </td>
                 <td>
-                    {{$message->sender_email}}
+                    <a href="{{route('person', $message->sender_email)}}">
+                        {{$message->sender_email}}
+                    </a>
                 </td>
                 <td>
                     {{$message->created_at}}

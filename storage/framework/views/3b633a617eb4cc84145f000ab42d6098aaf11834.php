@@ -58,6 +58,7 @@
                 <th>Customer Information</th>
                 <th>Address</th>
                 <th>Additional Info</th>
+                <th>Reference</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -79,8 +80,15 @@
 
                 </td>
                 <td>
-                    <b>Blood Group: </b><?php echo e($customer->blood_group); ?> <br>
-                    <b>Reference: </b><?php echo e($customer->reference); ?> <br>
+                    <b>Blood Group: </b> <?php echo e($customer->blood_group); ?> <br>
+                    <b>Date of Birth: </b> <?php echo e($customer->date_of_birth); ?> <br>
+                    <b>Marriage Date: </b> <?php echo e($customer->marriage_date); ?> <br>
+                    <b>Spouse Name: </b> <?php echo e($customer->spouse_name); ?> <br>
+                    <b>Children: </b> <?php echo e($customer->children); ?> <br>
+                </td>
+                <td>
+                  <?php echo e($customer->reference); ?>
+
                 </td>
                 <td style="display: flex;">
                     <a href="<?php echo e(route('customers.edit', $customer->id)); ?>"><button class="border-white text-primary"><i class="fas fa-edit"></i></button></a>

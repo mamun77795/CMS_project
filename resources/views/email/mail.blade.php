@@ -14,6 +14,18 @@
                 </p>
             </div>
         </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Thanks & Regards</p>
+                <b>
+                    Elite Paint & Chemical Industries Ltd.<br>
+                    Syed Grand Centre, Sector-7 <br>
+                    Uttara, Dhaka.
+                </b>
+            </div>
+        </div>
     </div>
 </body>
 </html>

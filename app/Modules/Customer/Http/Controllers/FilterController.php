@@ -13,6 +13,7 @@ use App\Modules\Customer\Models\BloodGroup;
 use App\Modules\Customer\Models\Customer;
 use App\Modules\Customer\Models\Message;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -120,9 +121,8 @@ class FilterController extends Controller
         $thanas = Thana::all();
         $blood_groups = BloodGroup::all();
         $ids = $this->ids;
-        
+
         return view('Customer::message_send', compact('divisions', 'ids', 'blood_groups'));
-       
     }
 
     public $customers = [];
@@ -188,6 +188,46 @@ class FilterController extends Controller
             }
         }
 
+        
+        $dob="";
+
+        if (isset($request['dob'])) {
+
+            $today = Carbon::now();
+            $currentDay = $today->day;
+            $currentMonth = $today->month;
+
+            $customer = DB::table('customers')
+                ->select('*')
+                ->where(DB::raw('DAY(date_of_birth)'), '=', $currentDay)
+                ->where(DB::raw('MONTH(date_of_birth)'), '=', $currentMonth)
+                ->get();
+
+            array_push($customers, $customer);
+
+            $dob = $request['dob'];
+
+        }
+
+        $m_day = "";
+
+        if (isset($request['m_day'])) {
+
+            $today = Carbon::now();
+            $currentDay = $today->day;
+            $currentMonth = $today->month;
+
+            $customer = DB::table('customers')
+                ->select('*')
+                ->where(DB::raw('DAY(marriage_date)'), '=', $currentDay)
+                ->where(DB::raw('MONTH(marriage_date)'), '=', $currentMonth)
+                ->get();
+
+            array_push($customers, $customer);
+
+            $m_day = $request['m_day'];
+        }
+
 
 
         $districts = $this->alldistricts;
@@ -202,7 +242,7 @@ class FilterController extends Controller
         foreach ($customers as $customer) {
             $totals += count($customer);
         }
-        
+
         if (isset($request['send_button'])) {
             $all_phone = [];
             $total_sent_sms = 0;
@@ -255,11 +295,11 @@ class FilterController extends Controller
 
         if (isset($request['send_mail'])) {
 
-            $total_mail=0;
-            $sent_email=0;
-            $failed_mail=0;
-            $failed_m_person_id=0;
-            $all_email=[];
+            $total_mail = 0;
+            $sent_email = 0;
+            $failed_mail = 0;
+            $failed_m_person_id = 0;
+            $all_email = [];
 
             foreach ($customers as $customer) {
                 $total_mail += count($customer);
@@ -268,9 +308,9 @@ class FilterController extends Controller
                     if ($customer_email != null) {
                         $sent_email += 1;
                         array_push($all_email, $customer_email);
-                    }else{
+                    } else {
                         $failed_mail += 1;
-                        $failed_m_person_id .= $c_all->id.", ";
+                        $failed_m_person_id .= $c_all->id . ", ";
                     }
                 }
             }
@@ -305,14 +345,15 @@ class FilterController extends Controller
             return "Email successfully sent...";
         }
 
+
         $blood_groups = BloodGroup::all();
         $references = Customer::select('reference')->distinct()->get();
 
-        if($request['send'] == "message"){
-            return view('Customer::message_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals'));
+        if ($request['send'] == "message") {
+            return view('Customer::message_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals', 'dob', 'm_day'));
         }
-        if($request['send'] == "email"){
-            return view('Customer::mail_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals'));
+        if ($request['send'] == "email") {
+            return view('Customer::mail_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals', 'dob', 'm_day'));
         }
     }
 

@@ -15,7 +15,7 @@
                             @method('post')
                             <div class="col-md-6">
                                 <div>
-                                <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Filter For sending</span></h5>
+                                    <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Filter For sending</span></h5>
                                     @foreach($divisions as $division)
                                     <label>
                                         <input type="checkbox" name="division-checkboxes[]" class="checkbox-division ml-2 mr-1" data-filter="division" value="{{$division->id}}" @if($ids !=null) @foreach($ids as $id) @if($id==$division->id) checked @endif @endforeach @endif >{{ $division->name }}
@@ -65,7 +65,7 @@
                                 </div> -->
 
                                 <div>
-                                <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Reference</span></h5>
+                                    <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Reference</span></h5>
                                     @foreach($references as $reference)
                                     <label>
                                         <input type="checkbox" name="reference-checkboxes[]" class="checkbox-reference ml-2 mr-1" data-filter="reference" value="{{$reference->reference}}" @if(isset($refs)) @foreach($refs as $ref) @if($ref==$reference->reference) checked @endif @endforeach @endif><span>{{$reference->reference}}</span>
@@ -79,6 +79,15 @@
                                         <input type="checkbox" name="blood-checkboxes[]" class="checkbox-blood ml-2 mr-1" data-filter="blood_group" value="{{$blood_group->id}}" @if(isset($bloods)) @foreach($bloods as $blood) @if($blood==$blood_group->id) checked @endif @endforeach @endif><span>{{$blood_group->name}}</span>
                                     </label>
                                     @endforeach
+                                </div>
+                                <div>
+                                    <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Special day wish</span></h5>
+                                    <label>
+                                        <input type="checkbox" id="dob" name="dob" class="checkbox-district ml-2 mr-1" data-filter="dob" value="dob" @if(isset($dob)) @if($dob == "dob") checked @endif @endif><span>Birthday</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" id="m_day" name="m_day" class="checkbox-district ml-2 mr-1" data-filter="m_day" value="m_day" @if(isset($m_day)) @if($m_day == "m_day") checked @endif @endif><span>Marriage anniversary</span>
+                                    </label>
                                 </div>
                             </div>
                             <div class=" col-md-6">

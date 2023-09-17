@@ -35,8 +35,10 @@
 
                 </td>
                 <td>
-                    <?php echo e($message->sender_email); ?>
+                    <a href="<?php echo e(route('person', $message->sender_email)); ?>">
+                        <?php echo e($message->sender_email); ?>
 
+                    </a>
                 </td>
                 <td>
                     <?php echo e($message->created_at); ?>

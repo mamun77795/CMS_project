@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label name="date_of_birth">Date Of Birth</label>
                                 <?php if($customer != ''){ $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth)); } ?>
-                                <input type="date" name="date_of_birth" class="form-control" value="<?php if( $date_of_birth != ''){ echo $date_of_birth; } ?>">
+                                <input type="date" name="date_of_birth" class="form-control" value="<?php if(isset($date_of_birth)){ echo $date_of_birth; } ?>">
                             </div>
                             <div class="form-group">
                                 <label for="blood_group_id">Blood Group</label>
@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <label name="marriage_date">Marriage Date</label>
                                 <?php if($customer != ''){ $marriage_date = date('Y-m-d', strtotime($customer->marriage_date)); } ?>
-                                <input type="date" name="marriage_date" class="form-control" value="<?php if( $marriage_date != ''){ echo $marriage_date; } ?>">
+                                <input type="date" name="marriage_date" class="form-control" value="<?php if(isset($marriage_date)){ echo $marriage_date; } ?>">
                             </div>
                         </div>
                         <div class="col-md-6">

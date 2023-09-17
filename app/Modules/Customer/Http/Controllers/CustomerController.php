@@ -159,7 +159,7 @@ class CustomerController extends Controller
         $dob = date('Y-m-d', strtotime($date_of_birth));
         $customer->date_of_birth = $dob;
 
-        $marriage_date = $request->marrage_date;
+        $marriage_date = $request->marriage_date;
         $m_date = date('Y-m-d', strtotime($marriage_date));
         $customer->marriage_date = $m_date;
         $customer->children = $request->children;

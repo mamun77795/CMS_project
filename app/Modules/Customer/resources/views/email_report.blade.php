@@ -34,7 +34,9 @@
                     {{$mail->failed_person_id}}
                 </td>
                 <td>
-                    {{$mail->sender}}
+                    <a href="{{route('person', $mail->sender)}}">
+                        {{$mail->sender}}
+                    </a>
                 </td>
                 <td>
                     {{$mail->created_at}}
