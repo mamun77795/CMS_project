@@ -18,8 +18,8 @@ class MyCustomEmail extends Mailable
      * @return void
      */
 
-    public $subject;
-    public $with;
+    public $heading;
+    public $attachement;
 
     public function __construct()
     {
@@ -33,15 +33,15 @@ class MyCustomEmail extends Mailable
      */
     public function build()
     {
+        $emaildata = Mail::latest()->first();
 
-        $emails = Mail::all();
         return $this
             ->from('elitepaint96@gmail.com')
-            ->subject('Welcome to New Elite Software')
+            ->subject($emaildata->heading)
             ->view('email.mail')
+            ->attach(public_path("photo/"."$emaildata->attachement"))
             ->with([
                 'message' => 'This is a test email from Laravel!',
             ]);
-        //return $this->view('view.name');
     }
 }

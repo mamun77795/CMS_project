@@ -9,11 +9,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>{{$emails->subject}}</h1>
                 <p>
-                    {{$emails->body}}
+                    {{$emailData->body}}
                 </p>
-                <img src="{{asset('photo')}}/{{$emails->file}}" style="height: 200px; width: 200px;" alt="">
             </div>
         </div>
     </div>

@@ -18,6 +18,7 @@ Route::group(['middleware'=>'check'], function(){
     Route::get('/email', 'CustomerController@sendEmail')->name('sendEmail');
     Route::get('/message-box', 'CustomerController@messageBox')->name('messageBox');
     Route::get('/ind_msg', 'CustomerController@indMsgBox')->name('indMsgBox');
+    Route::get('/mail_report', 'CustomerController@emailReport')->name('emailReport');
     Route::get('/filter', 'CustomerController@filterCustomer')->name('filterCustomer');
 
     Route::post('/download_customer', [FilterController::class,'downloadExportxl'])->name('downloadExportxl');

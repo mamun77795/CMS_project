@@ -10,8 +10,9 @@
             <div class="col-md-12">
                 <div class="container">
                     <div class="row">
-                        <form id="myForm" class="row" method="GET" action="{{route('getDistricts')}}">
+                        <form id="myForm" class="row" method="POST" action="{{route('getDistricts')}}">
                             @csrf
+                            @method('post')
                             <div class="col-md-6">
                                 <div>
                                 <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Filter For sending</span></h5>
@@ -89,7 +90,8 @@
                                 </select>
                                 <textarea name="message" class="form-control" rows="5" required></textarea>
                                 <div class="col-md-12 d-flex justify-content-center">
-                                    <button type="submit" name="send-button" class="btn btn-secondary mt-2">Send</button>
+                                    <input type="hidden" name="send" value="message">
+                                    <button type="submit" name="send_button" class="btn btn-secondary mt-2">Send</button>
                                 </div>
                             </div>
                         </form>

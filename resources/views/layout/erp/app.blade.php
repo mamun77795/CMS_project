@@ -199,13 +199,13 @@
                                 <li class="nav-item">
                                     <a href="{{route('sendEmail')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Send Email (All)</p>
+                                        <p>Create Mail</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('customers.create')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Send Email (Individual)</p>
+                                        <p>Email Report</p>
                                     </a>
                                 </li>
                             </ul>

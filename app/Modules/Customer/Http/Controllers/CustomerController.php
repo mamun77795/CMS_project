@@ -8,6 +8,7 @@ use App\Imports\CustomersImport;
 use App\Mail\MyCustomEmail;
 use App\Models\District;
 use App\Models\Division;
+use App\Models\Mail as ModelsMail;
 use App\Models\Thana;
 use App\Models\User;
 use App\Modules\Customer\Models\BloodGroup;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
@@ -38,7 +40,7 @@ class CustomerController extends Controller
         $thanas = Thana::all();
 
         //return $customers;
-        return view('Customer::index', ['customers' => $customers, 'blood_groups' => $blood_groups, 'districts'=>$districts, 'thanas'=>$thanas]);
+        return view('Customer::index', ['customers' => $customers, 'blood_groups' => $blood_groups, 'districts' => $districts, 'thanas' => $thanas]);
     }
 
     /**
@@ -81,6 +83,17 @@ class CustomerController extends Controller
         $customer->thana_id = $request->thana_id;
         $customer->district_id = $request->district_id;
         $customer->blood_group_id = $request->blood_group_id;
+
+        $date_of_birth = $request->date_of_birth;
+        $dob = date('Y-m-d', strtotime($date_of_birth));
+        $customer->date_of_birth = $dob;
+
+        $marriage_date = $request->marriage_date;
+        $m_date = date('Y-m-d', strtotime($marriage_date));
+        $customer->marriage_date = $m_date;
+        $customer->children = $request->children;
+        $customer->spouse_name = $request->spouse_name;
+
         $customer->created_by = "Name: " . Session::get('sess_user_name') . ", Email: " . Session::get('sess_email');
         $customer->save();
 
@@ -110,7 +123,7 @@ class CustomerController extends Controller
         $districts = District::all();
         $thanas = Thana::all();
         $blood_groups = BloodGroup::all();
-        return view('Customer::crmform', compact('customer', 'districts', 'thanas','blood_groups'));
+        return view('Customer::crmform', compact('customer', 'districts', 'thanas', 'blood_groups'));
     }
 
     /**
@@ -141,7 +154,30 @@ class CustomerController extends Controller
         $customer->post_code = $request->post_code;
         $customer->reference = $request->reference;
         $customer->blood_group_id = $request->blood_group_id;
+
+        $date_of_birth = $request->date_of_birth;
+        $dob = date('Y-m-d', strtotime($date_of_birth));
+        $customer->date_of_birth = $dob;
+
+        $marriage_date = $request->marrage_date;
+        $m_date = date('Y-m-d', strtotime($marriage_date));
+        $customer->marriage_date = $m_date;
+        $customer->children = $request->children;
+        $customer->spouse_name = $request->spouse_name;
         $customer->updated_by = "Name: " . Session::get('sess_user_name') . ", Email: " . Session::get('sess_email');
+
+
+        // $today = Carbon::now();
+        // $currentDay = $today->day;
+        // $currentMonth = $today->month;
+
+        // $birthdayPeople = DB::table('your_table_name')
+        //     ->select('*')
+        //     ->where(DB::raw('DAY(date_of_birth)'), '=', $currentDay)
+        //     ->where(DB::raw('MONTH(date_of_birth)'), '=', $currentMonth)
+        //     ->get();
+
+
         $customer->save();
         return Redirect::route('customers.index');
     }
@@ -215,11 +251,28 @@ class CustomerController extends Controller
         $blood_groups = BloodGroup::all();
         $ids = [];
         $references = Customer::select('reference')->distinct()->get();
-        return view('Customer::message_send', compact('customers', 'divisions','references','blood_groups'), compact('districts', 'ids'));
+        return view('Customer::message_send', compact('customers', 'divisions', 'references', 'blood_groups'), compact('districts', 'ids'));
     }
     public function indMsgBox()
     {
         $messages = Message::all();
         return view('Customer::ind_msg_send', compact('messages'));
+    }
+
+    public function sendEmail()
+    {
+        $customers = Customer::all();
+        $districts = [];
+        $divisions = Division::all();
+        $blood_groups = BloodGroup::all();
+        $ids = [];
+        $references = Customer::select('reference')->distinct()->get();
+        return view('Customer::mail_send', compact('customers', 'divisions', 'references', 'blood_groups'), compact('districts', 'ids'));
+    }
+
+    public function emailReport()
+    {
+        $mails = ModelsMail::all();
+        return view('Customer::email_report', compact('mails'));
     }
 }

@@ -37,7 +37,8 @@ Route::middleware(['check'])->group(function () {
 
 Route::post('/filter_customer', [FilterController::class,'filterCustomer'])->name('filterCustomer');
 
-Route::get('/filtering', [FilterController::class, 'getDivision'])->name('getDivision');
-Route::get('/filter-districts', [FilterController::class, 'getDistricts'])->name('getDistricts');
-Route::get('/filter-thanas', [FilterController::class, 'getThanas'])->name('getThanas');
+Route::post('/filtering', [FilterController::class, 'getDivision'])->name('getDivision');
+Route::post('/filter-districts', [FilterController::class, 'getDistricts'])->name('getDistricts');
+Route::post('/filter-thanas', [FilterController::class, 'getThanas'])->name('getThanas');
 
+// Route::get('/filterr-message', [FilterController::class, 'messageFilter'])->name('messageFilter');

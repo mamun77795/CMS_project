@@ -1,12 +1,12 @@
 <?php
 
-if (!function_exists('getMailData')) {
-    function getDataFromDatabase() {
-        $data = \App\Models\Mail::all(); 
-
-        return $data;
-    }
-}
+// if (!function_exists('setSharedData')) {
+//     function setSharedData($key, $value) {
+        
+//         app('view')->share($key, $value);
+//         //app('view')->share("body", $body);
+//     }
+// }
 
 
 function sendSMS($sms, $to)

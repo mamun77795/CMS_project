@@ -34,7 +34,12 @@
                                 <input class="form-control" type="tel" id="phone" name="phone" value="@if($customer != ''){{ $customer->phone }}@endif">
                             </div>
                             <div class="form-group">
-                            <label for="blood_group_id">Blood Group</label>
+                                <label name="date_of_birth">Date Of Birth</label>
+                                <?php if($customer != ''){ $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth)); } ?>
+                                <input type="date" name="date_of_birth" class="form-control" value="<?php if( $date_of_birth != ''){ echo $date_of_birth; } ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="blood_group_id">Blood Group</label>
                                 <select name="blood_group_id" id="" class="form-control">
                                         <option value="">Select</option>
                                     @foreach($blood_groups as $blood_group)
@@ -42,8 +47,21 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label name="marriage_date">Marriage Date</label>
+                                <?php if($customer != ''){ $marriage_date = date('Y-m-d', strtotime($customer->marriage_date)); } ?>
+                                <input type="date" name="marriage_date" class="form-control" value="<?php if( $marriage_date != ''){ echo $marriage_date; } ?>">
+                            </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label name="spouse_name">Spouse Name</label>
+                                <input type="text" name="spouse_name" class="form-control" value="@if($customer != ''){{ $customer->spouse_name }}@endif">
+                            </div>
+                            <div class="form-group">
+                                <label name="children">Children</label>
+                                <input type="text" name="children" class="form-control" value="@if($customer != ''){{ $customer->children }}@endif">
+                            </div>
                             <div class="form-group">
                                 <label for="street">Street Address:</label>
                                 <input class="form-control" type="text" id="street" name="street" value="@if($customer != ''){{ $customer->street }}@endif">

@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Mail\MyCustomEmail;
 use App\Models\District;
 use App\Models\Division;
+use App\Models\Mail as ModelsMail;
 use App\Models\Thana;
 use App\Modules\Customer\Models\BloodGroup;
 use App\Modules\Customer\Models\Customer;
 use App\Modules\Customer\Models\Message;
 use Barryvdh\DomPDF\Facade\Pdf;
-use HelperOne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -120,9 +120,12 @@ class FilterController extends Controller
         $thanas = Thana::all();
         $blood_groups = BloodGroup::all();
         $ids = $this->ids;
+        
         return view('Customer::message_send', compact('divisions', 'ids', 'blood_groups'));
+       
     }
 
+    public $customers = [];
     public function getDistricts(Request $request)
     {
         $customers = [];
@@ -199,29 +202,28 @@ class FilterController extends Controller
         foreach ($customers as $customer) {
             $totals += count($customer);
         }
-
-        if (isset($request['send-button'])) {
-
+        
+        if (isset($request['send_button'])) {
             $all_phone = [];
-            $total_sent_sms =0;
-            $failed_sms=0;
+            $total_sent_sms = 0;
+            $failed_sms = 0;
             $sms = $request->message;
-            $sms_type ="";
-            $failed_person_id="";
+            $sms_type = "";
+            $failed_person_id = "";
             foreach ($customers as $customer) {
                 foreach ($customer as $c_all) {
                     $customer_phone = $c_all->phone;
                     if ($customer_phone != null) {
                         $total_sent_sms += 1;
-                        if($request->sms_type == "non-masking"){
+                        if ($request->sms_type == "non-masking") {
                             sendSMS($sms, $customer_phone);
                         }
-                        if($request->sms_type == "masking"){
+                        if ($request->sms_type == "masking") {
                             array_push($all_phone, $customer_phone);
                         }
-                    }else{
+                    } else {
                         $failed_sms += 1;
-                        $failed_person_id .= $c_all->id.", ";
+                        $failed_person_id .= $c_all->id . ", ";
                     }
                 }
             }
@@ -233,29 +235,85 @@ class FilterController extends Controller
             $message->sending_failed = $failed_sms;
             $message->failed_person_id = $failed_person_id;
             $message->sender_email = Session::get('sess_email');
-            if($request->sms_type == "non-masking"){
+            if ($request->sms_type == "non-masking") {
                 $message->sms_type = "Non-Masking";
-            }else{
+            } else {
                 $message->sms_type = "Masking";
             }
             $message->save();
 
-            if($request->sms_type == "non-masking"){
+            if ($request->sms_type == "non-masking") {
                 $sms_type = "Non-Masking";
                 return 'Your SMS sent successfully! ' . $sms;
             }
-            if($request->sms_type == "masking"){
+            if ($request->sms_type == "masking") {
                 $sms_type = "Masking";
                 return $all_phone;
             }
-            
         }
 
 
+        if (isset($request['send_mail'])) {
+
+            $total_mail=0;
+            $sent_email=0;
+            $failed_mail=0;
+            $failed_m_person_id=0;
+            $all_email=[];
+
+            foreach ($customers as $customer) {
+                $total_mail += count($customer);
+                foreach ($customer as $c_all) {
+                    $customer_email = $c_all->email;
+                    if ($customer_email != null) {
+                        $sent_email += 1;
+                        array_push($all_email, $customer_email);
+                    }else{
+                        $failed_mail += 1;
+                        $failed_m_person_id .= $c_all->id.", ";
+                    }
+                }
+            }
+
+            $mail = new ModelsMail();
+            if ($request->hasFile('attachement')) {
+                $image = $request->file('attachement');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('photo'), $imageName);
+                $mail->attachement = $imageName;
+            }
+            $mail->heading = $request->subject;
+            $mail->body = $request->body;
+            $mail->total_mail = $total_mail;
+            $mail->sent_mail = $sent_email;
+            $mail->failed_mail = $failed_mail;
+            $mail->failed_person_id = $failed_m_person_id;
+            $mail->sender = Session::get('sess_email');
+            $mail->save();
+
+            $emails = ModelsMail::all();
+
+            foreach ($customers as $customer) {
+                foreach ($customer as $c_all) {
+                    $customer_email = $c_all->email;
+                    if ($customer_email != null) {
+                        $emailcustom = new MyCustomEmail();
+                        Mail::to($customer_email)->send($emailcustom);
+                    }
+                }
+            }
+            return "Email successfully sent...";
+        }
 
         $blood_groups = BloodGroup::all();
         $references = Customer::select('reference')->distinct()->get();
-        return view('Customer::message_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals'));
+
+        if($request['send'] == "message"){
+            return view('Customer::message_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals'));
+        }
+        if($request['send'] == "email"){
+            return view('Customer::mail_send', compact('divisions', 'districts', 'references', 'thanas', 'ids', 'dids', 'tids', 'blood_groups', 'refs', 'bloods', 'totals'));
+        }
     }
 
     public function doWork1()
@@ -269,26 +327,4 @@ class FilterController extends Controller
             }
         }
     }
-
-
-        public function sendEmail()
-        {
-    
-            $customers = Customer::all();
-    
-            foreach ($customers as $customer) {
-                $mailaddress = $customer->email;
-                $this->mailAddress($mailaddress);
-            }
-    
-            return 'Email sent successfully!';
-        }
-    
-    
-        public function mailAddress($mailaddress)
-        {
-            $email = new MyCustomEmail;
-            Mail::to($mailaddress)->send($email);
-        }
-
 }
