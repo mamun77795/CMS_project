@@ -4,9 +4,9 @@
 <div class="container m-4" style="font-size: 0.9rem;">
     <div class="row">
         <div class="col-md-11 bg-light p-5" style="border-radius: 10px; border:2px solid orange;">
-        <div style="font-size: 1.5rem; position: absolute;  top: -20px; left: 25%; background-color: #fff; padding: 0 5px; font-weight: bold;" class="text-center">
-            Customer Information Form
-        </div>
+            <div style="font-size: 1.5rem; position: absolute;  top: -20px; left: 25%; background-color: #fff; padding: 0 5px; font-weight: bold;" class="text-center">
+                Customer Information Form
+            </div>
             <?php if($customer == ""): ?>
             <form class="form col-md-12" action="<?php echo e(route('customers.store')); ?>" method="POST">
                 <?php echo csrf_field(); ?>
@@ -35,22 +35,31 @@
                             </div>
                             <div class="form-group">
                                 <label name="date_of_birth">Date Of Birth</label>
-                                <?php if($customer != ''){ $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth)); } ?>
-                                <input type="date" name="date_of_birth" class="form-control" value="<?php if(isset($date_of_birth)){ echo $date_of_birth; } ?>">
+                                <?php if ($customer != '') {
+                                    $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth));
+                                } ?>
+                                <input type="text" name="date_of_birth" class="datepicker form-control" value="<?php if (isset($date_of_birth)) {
+                                                                                                        echo $date_of_birth;
+                                                                                                    } ?>">
+                                
                             </div>
                             <div class="form-group">
                                 <label for="blood_group_id">Blood Group</label>
                                 <select name="blood_group_id" id="" class="form-control">
-                                        <option value="">Select</option>
+                                    <option value="">Select</option>
                                     <?php $__currentLoopData = $blood_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $blood_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($blood_group->id); ?>" <?php if($customer != ''): ?> <?php if($customer->blood_group_id == $blood_group->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($blood_group->name); ?></option>
+                                    <option value="<?php echo e($blood_group->id); ?>" <?php if($customer !='' ): ?> <?php if($customer->blood_group_id == $blood_group->id): ?> selected <?php endif; ?> <?php endif; ?> ><?php echo e($blood_group->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label name="marriage_date">Marriage Date</label>
-                                <?php if($customer != ''){ $marriage_date = date('Y-m-d', strtotime($customer->marriage_date)); } ?>
-                                <input type="date" name="marriage_date" class="form-control" value="<?php if(isset($marriage_date)){ echo $marriage_date; } ?>">
+                                <?php if ($customer != '') {
+                                    $marriage_date = date('Y-m-d', strtotime($customer->marriage_date));
+                                } ?>
+                                <input type="text" name="marriage_date" class="datepicker form-control" value="<?php if (isset($marriage_date)) {
+                                                                                                        echo $marriage_date;
+                                                                                                    } ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -71,7 +80,7 @@
                                 <select name="thana_id" id="" class="form-control">
                                     <option value="">Select</option>
                                     <?php $__currentLoopData = $thanas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $thana): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($thana->id); ?>" <?php if($customer != ''): ?> <?php if($customer->thana_id == $thana->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($thana->name); ?></option>
+                                    <option value="<?php echo e($thana->id); ?>" <?php if($customer !='' ): ?> <?php if($customer->thana_id == $thana->id): ?> selected <?php endif; ?> <?php endif; ?> ><?php echo e($thana->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
@@ -80,7 +89,7 @@
                                 <select name="district_id" id="" class="form-control">
                                     <option value="">Select</option>
                                     <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($district->id); ?>" <?php if($customer != ''): ?> <?php if($customer->district_id == $district->id): ?> selected  <?php endif; ?> <?php endif; ?> ><?php echo e($district->name); ?></option>
+                                    <option value="<?php echo e($district->id); ?>" <?php if($customer !='' ): ?> <?php if($customer->district_id == $district->id): ?> selected <?php endif; ?> <?php endif; ?> ><?php echo e($district->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
@@ -94,8 +103,8 @@
                             </div>
                             <!-- Submit Button -->
                             <div class="btn-group">
-                            <a href="<?php echo e(route('customers.index')); ?>" class="btn btn-danger mt-3 mb-3" style="margin-left:100%;">Cancel</a>
-                            <button class="btn btn-success mt-3 mb-3" type="submit">Submit</button>
+                                <a href="<?php echo e(route('customers.index')); ?>" class="btn btn-danger mt-3 mb-3" style="margin-left:100%;">Cancel</a>
+                                <button class="btn btn-success mt-3 mb-3" type="submit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -103,5 +112,13 @@
         </div>
     </div>
 </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".datepicker").datepicker();
+    });
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.erp.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\xampp\htdocs\new-project\app\Modules/Customer/resources/views/crmform.blade.php ENDPATH**/ ?>

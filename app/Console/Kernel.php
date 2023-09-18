@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('route:clear')->daily();
         $schedule->command('view:clear')->daily();
         $schedule->command('cache:clear')->daily();
+        $schedule->command('sendsms:run')
+                 ->daily();
         
     }
 

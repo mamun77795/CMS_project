@@ -4,7 +4,9 @@ namespace App\Modules\Customer\Http\Controllers;
 
 use App\Exports\CustomersExport;
 use App\Http\Controllers\Controller;
+use App\Mail\MarriageAnniversary;
 use App\Mail\MyCustomEmail;
+use App\Mail\WishMail;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\Mail as ModelsMail;
@@ -188,8 +190,8 @@ class FilterController extends Controller
             }
         }
 
-        
-        $dob="";
+
+        $dob = "";
 
         if (isset($request['dob'])) {
 
@@ -206,7 +208,6 @@ class FilterController extends Controller
             array_push($customers, $customer);
 
             $dob = $request['dob'];
-
         }
 
         $m_day = "";
@@ -228,15 +229,11 @@ class FilterController extends Controller
             $m_day = $request['m_day'];
         }
 
-
-
         $districts = $this->alldistricts;
         $thanas = $this->allthana;
         $ids = $this->ids;
         $dids = $this->dids;
         $tids = $this->ids;
-
-
 
         $totals = 0;
         foreach ($customers as $customer) {
@@ -337,14 +334,17 @@ class FilterController extends Controller
                 foreach ($customer as $c_all) {
                     $customer_email = $c_all->email;
                     if ($customer_email != null) {
-                        $emailcustom = new MyCustomEmail();
+                       $emailcustom = new MyCustomEmail();
+                       //$emailcustom = new WishMail();
+                       //$emailcustom = new MarriageAnniversary();
                         Mail::to($customer_email)->send($emailcustom);
                     }
                 }
             }
-            return "Email successfully sent...";
-        }
 
+            return "Email successfully sent...";
+
+        }
 
         $blood_groups = BloodGroup::all();
         $references = Customer::select('reference')->distinct()->get();

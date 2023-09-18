@@ -2,9 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\MarriageAnniversary;
+use App\Mail\MyCustomEmail;
+use App\Mail\WishMail;
 use App\Modules\Customer\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class sendBirthdayMessage extends Command
 {
@@ -13,14 +17,14 @@ class sendBirthdayMessage extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'sendsms:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Automatic message and email';
 
     /**
      * Create a new command instance.
@@ -46,8 +50,10 @@ class sendBirthdayMessage extends Command
 
         foreach ($customers as $customer) {
             sendSMS("Happy birthday to you from Elite Paint", $customer->phone);
-        }
 
+            $emailcustom = new WishMail();
+            Mail::to($customer->email)->send($emailcustom);
+        }
 
         $customers = Customer::whereMonth('marriage_date', $today->month)
                      ->whereDay('marriage_date', $today->day)
@@ -55,7 +61,11 @@ class sendBirthdayMessage extends Command
 
         foreach ($customers as $customer) {
             sendSMS("Happy marriage anniversary. Well wishes from Elite Paint", $customer->phone);
+
+            $emailcustom = new MarriageAnniversary();
+            Mail::to($customer->email)->send($emailcustom);
         }
+
         return $this->info('Messages sent successfully.');
     }
 }

@@ -4,9 +4,9 @@
 <div class="container m-4" style="font-size: 0.9rem;">
     <div class="row">
         <div class="col-md-11 bg-light p-5" style="border-radius: 10px; border:2px solid orange;">
-        <div style="font-size: 1.5rem; position: absolute;  top: -20px; left: 25%; background-color: #fff; padding: 0 5px; font-weight: bold;" class="text-center">
-            Customer Information Form
-        </div>
+            <div style="font-size: 1.5rem; position: absolute;  top: -20px; left: 25%; background-color: #fff; padding: 0 5px; font-weight: bold;" class="text-center">
+                Customer Information Form
+            </div>
             @if($customer == "")
             <form class="form col-md-12" action="{{route('customers.store')}}" method="POST">
                 @csrf
@@ -35,22 +35,31 @@
                             </div>
                             <div class="form-group">
                                 <label name="date_of_birth">Date Of Birth</label>
-                                <?php if($customer != ''){ $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth)); } ?>
-                                <input type="date" name="date_of_birth" class="form-control" value="<?php if(isset($date_of_birth)){ echo $date_of_birth; } ?>">
+                                <?php if ($customer != '') {
+                                    $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth));
+                                } ?>
+                                <input type="text" name="date_of_birth" class="datepicker form-control" value="<?php if (isset($date_of_birth)) {
+                                                                                                        echo $date_of_birth;
+                                                                                                    } ?>">
+                                
                             </div>
                             <div class="form-group">
                                 <label for="blood_group_id">Blood Group</label>
                                 <select name="blood_group_id" id="" class="form-control">
-                                        <option value="">Select</option>
+                                    <option value="">Select</option>
                                     @foreach($blood_groups as $blood_group)
-                                        <option value="{{$blood_group->id}}" @if($customer != '') @if($customer->blood_group_id == $blood_group->id) selected  @endif @endif >{{$blood_group->name}}</option>
+                                    <option value="{{$blood_group->id}}" @if($customer !='' ) @if($customer->blood_group_id == $blood_group->id) selected @endif @endif >{{$blood_group->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label name="marriage_date">Marriage Date</label>
-                                <?php if($customer != ''){ $marriage_date = date('Y-m-d', strtotime($customer->marriage_date)); } ?>
-                                <input type="date" name="marriage_date" class="form-control" value="<?php if(isset($marriage_date)){ echo $marriage_date; } ?>">
+                                <?php if ($customer != '') {
+                                    $marriage_date = date('Y-m-d', strtotime($customer->marriage_date));
+                                } ?>
+                                <input type="text" name="marriage_date" class="datepicker form-control" value="<?php if (isset($marriage_date)) {
+                                                                                                        echo $marriage_date;
+                                                                                                    } ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -71,7 +80,7 @@
                                 <select name="thana_id" id="" class="form-control">
                                     <option value="">Select</option>
                                     @foreach($thanas as $thana)
-                                        <option value="{{$thana->id}}" @if($customer != '') @if($customer->thana_id == $thana->id) selected  @endif @endif >{{$thana->name}}</option>
+                                    <option value="{{$thana->id}}" @if($customer !='' ) @if($customer->thana_id == $thana->id) selected @endif @endif >{{$thana->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -80,7 +89,7 @@
                                 <select name="district_id" id="" class="form-control">
                                     <option value="">Select</option>
                                     @foreach($districts as $district)
-                                        <option value="{{$district->id}}" @if($customer != '') @if($customer->district_id == $district->id) selected  @endif @endif >{{$district->name}}</option>
+                                    <option value="{{$district->id}}" @if($customer !='' ) @if($customer->district_id == $district->id) selected @endif @endif >{{$district->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,8 +103,8 @@
                             </div>
                             <!-- Submit Button -->
                             <div class="btn-group">
-                            <a href="{{route('customers.index')}}" class="btn btn-danger mt-3 mb-3" style="margin-left:100%;">Cancel</a>
-                            <button class="btn btn-success mt-3 mb-3" type="submit">Submit</button>
+                                <a href="{{route('customers.index')}}" class="btn btn-danger mt-3 mb-3" style="margin-left:100%;">Cancel</a>
+                                <button class="btn btn-success mt-3 mb-3" type="submit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -103,4 +112,12 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".datepicker").datepicker();
+    });
+</script>
 @endsection
