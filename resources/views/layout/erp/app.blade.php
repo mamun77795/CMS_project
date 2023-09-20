@@ -213,6 +213,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @if(Session::get('sess_role_id') == 1)
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
@@ -236,6 +237,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

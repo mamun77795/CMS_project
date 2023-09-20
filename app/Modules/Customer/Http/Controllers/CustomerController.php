@@ -72,6 +72,7 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'street' => 'required',
+            'district' => 'required',
         ]);
 
         $customer = new Customer();
@@ -81,7 +82,7 @@ class CustomerController extends Controller
         $customer->phone = $request->phone;
         $customer->street = $request->street;
         $customer->thana_id = $request->thana_id;
-        $customer->district_id = $request->district_id;
+        $customer->district_id = $request->district;
         $customer->blood_group_id = $request->blood_group_id;
 
         $date_of_birth = $request->date_of_birth;
@@ -141,6 +142,7 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'street' => 'required',
+            'district' => 'required'
         ]);
 
         $customer = Customer::find($customer->id);
@@ -150,7 +152,7 @@ class CustomerController extends Controller
         $customer->phone = $request->phone;
         $customer->street = $request->street;
         $customer->thana_id = $request->thana_id;
-        $customer->district_id = $request->district_id;
+        $customer->district_id = $request->district;
         $customer->post_code = $request->post_code;
         $customer->reference = $request->reference;
         $customer->blood_group_id = $request->blood_group_id;

@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Mail\MarriageAnniversary;
-use App\Mail\MyCustomEmail;
 use App\Mail\WishMail;
 use App\Modules\Customer\Models\Customer;
 use Carbon\Carbon;

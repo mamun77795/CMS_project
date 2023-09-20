@@ -20,18 +20,30 @@
                             <div class="form-group">
                                 <label for="first_name">First Name:</label>
                                 <input class="form-control" type="text" id="first_name" name="first_name" value="@if($customer != ''){{ $customer->first_name }}@endif">
+                                @error('first_name')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="last_name">Last Name:</label>
                                 <input class="form-control" type="text" id="last_name" name="last_name" value="@if($customer != ''){{ $customer->last_name }}@endif">
+                                @error('last_name')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input class="form-control" type="email" id="email" name="email" value="@if($customer != ''){{ $customer->email }}@endif">
+                                @error('email')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone:</label>
                                 <input class="form-control" type="tel" id="phone" name="phone" value="@if($customer != ''){{ $customer->phone }}@endif">
+                                @error('phone')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label name="date_of_birth">Date Of Birth</label>
@@ -39,9 +51,11 @@
                                     $date_of_birth = date('Y-m-d', strtotime($customer->date_of_birth));
                                 } ?>
                                 <input type="text" name="date_of_birth" class="datepicker form-control" value="<?php if (isset($date_of_birth)) {
-                                                                                                        echo $date_of_birth;
-                                                                                                    } ?>">
-                                
+                                                                                                                    echo $date_of_birth;
+                                                                                                                } ?>">
+                                @error('date_of_birth')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="blood_group_id">Blood Group</label>
@@ -58,8 +72,8 @@
                                     $marriage_date = date('Y-m-d', strtotime($customer->marriage_date));
                                 } ?>
                                 <input type="text" name="marriage_date" class="datepicker form-control" value="<?php if (isset($marriage_date)) {
-                                                                                                        echo $marriage_date;
-                                                                                                    } ?>">
+                                                                                                                    echo $marriage_date;
+                                                                                                                } ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -74,6 +88,9 @@
                             <div class="form-group">
                                 <label for="street">Street Address:</label>
                                 <input class="form-control" type="text" id="street" name="street" value="@if($customer != ''){{ $customer->street }}@endif">
+                                @error('street')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="thana">Thana</label>
@@ -86,12 +103,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="district">District</label>
-                                <select name="district_id" id="" class="form-control">
+                                <select name="district" id="" class="form-control">
                                     <option value="">Select</option>
                                     @foreach($districts as $district)
                                     <option value="{{$district->id}}" @if($customer !='' ) @if($customer->district_id == $district->id) selected @endif @endif >{{$district->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('district')
+                                <span class="text-danger text-bold">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="post_code">Post Code:</label>
@@ -101,7 +121,6 @@
                                 <label for="reference">Reference</label>
                                 <input type="text" name="reference" class="form-control" id="reference" value="@if($customer != ''){{ $customer->reference }}@endif" name="reference" rows="4" cols="50" />
                             </div>
-                            <!-- Submit Button -->
                             <div class="btn-group">
                                 <a href="{{route('customers.index')}}" class="btn btn-danger mt-3 mb-3" style="margin-left:100%;">Cancel</a>
                                 <button class="btn btn-success mt-3 mb-3" type="submit">Submit</button>
