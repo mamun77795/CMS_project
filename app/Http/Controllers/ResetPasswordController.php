@@ -10,34 +10,35 @@ class ResetPasswordController extends Controller
 {
     public function showResetForm($token){
         $user = User::where('reset_token', $token)->first();
-        $email = $user->email;
 
         if(!$user){
             abort(404);
         }
         
-        return view('auth.reset-password', ['token' => $token, 'email'=>$email]);
+        return view('auth.reset-password', ['token' => $token]);
     }
 
     public function reset(Request $request){
         $this->validate($request, [
             'token' => 'required',
-            'email' => 'required|email',
             'password' => 'required|confirmed|min:5',
         ]);
 
         
-        $user = User::where('email', $request->email)->where('reset_token', $request->token)->first();
+        $user = User::where('reset_token', $request->token)->first();
 
         if (!$user) {
-            return back()->with('error', 'Invalid email or token.');
+            $error = "Token or Email is Invalid";
+            return view('auth.reset-password', compact('error'));
         }
 
         $user->update([
             'password' => Hash::make($request->password),
             'reset_token' => null,
         ]);
+
+        $status = "Password reset successful. You can log in now";
     
-        return redirect('/')->with('status', 'Password reset successful. You can now log in.');
+        return view('login', compact('status'));
     }
 }

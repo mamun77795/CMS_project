@@ -19,15 +19,15 @@ class ForgotPasswordController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if(!$user){
-            return back()->with('error', 'Email not found.');
+            $error = "Email not found";
+            return view('auth.forgot-password', compact('error'));
         }
 
         $token = Str::random(64);
         $user->update(['reset_token'=>$token]);
-
-        Mail::to($user->email)->send(new ResetPasswordMail($user));
-        return "Password reset link has been sent to your email";
         
+        Mail::to($user->email)->send(new ResetPasswordMail($user));
+        $message = "Reset link has been sent to your email";
+        return view('auth.forgot-password', compact('message'));
     }
-
 }

@@ -34,6 +34,9 @@
                 <form action="{{route('auth')}}" method="post">
                     @csrf
                     <div class="input-group mb-3">
+                    <span class="text-success">
+                        @if(isset($status)) {{$status}} @endif
+                    </span>
                         <input type="text" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">

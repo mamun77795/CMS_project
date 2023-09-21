@@ -28,7 +28,11 @@
                                     @foreach($districts as $districtss)
                                     @foreach($districtss as $district)
                                     <label>
-                                        <input type="checkbox" id="district_id" name="district-checkboxes[]" class="checkbox-district ml-2 mr-1" data-filter="district" value="{{ $district->id }}" @if($dids !=null) @foreach($dids as $did) @if($did==$district->id) checked @endif @endforeach @endif><span>{{ $district->name }}</span>
+                                    @php
+                                        $customers = DB::select("select * from customers where district_id='$district->id'");
+                                        $total = count($customers);
+                                    @endphp
+                                        <input type="checkbox" id="district_id" name="district-checkboxes[]" class="checkbox-district ml-2 mr-1" data-filter="district" value="{{ $district->id }}" @if($dids !=null) @foreach($dids as $did) @if($did==$district->id) checked @endif @endforeach @endif><span>{{ $district->name }} ({{$total}})</span>
                                     </label>
                                     @endforeach
                                     <br>
@@ -68,7 +72,11 @@
                                     <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Reference</span></h5>
                                     @foreach($references as $reference)
                                     <label>
-                                        <input type="checkbox" name="reference-checkboxes[]" class="checkbox-reference ml-2 mr-1" data-filter="reference" value="{{$reference->reference}}" @if(isset($refs)) @foreach($refs as $ref) @if($ref==$reference->reference) checked @endif @endforeach @endif><span>{{$reference->reference}}</span>
+                                        @php
+                                        $customers = DB::select("select * from customers where reference='$reference->reference'");
+                                        $total = count($customers);
+                                        @endphp
+                                        <input type="checkbox" name="reference-checkboxes[]" class="checkbox-reference ml-2 mr-1" data-filter="reference" value="{{$reference->reference}}" @if(isset($refs)) @foreach($refs as $ref) @if($ref==$reference->reference) checked @endif @endforeach @endif><span>{{$reference->reference}} ({{$total}})</span>
                                     </label>
                                     @endforeach
                                 </div>
@@ -76,17 +84,43 @@
                                     <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Blood Group</span></h5>
                                     @foreach($blood_groups as $blood_group)
                                     <label>
-                                        <input type="checkbox" name="blood-checkboxes[]" class="checkbox-blood ml-2 mr-1" data-filter="blood_group" value="{{$blood_group->id}}" @if(isset($bloods)) @foreach($bloods as $blood) @if($blood==$blood_group->id) checked @endif @endforeach @endif><span>{{$blood_group->name}}</span>
+                                        @php
+                                        $customers = DB::select("select * from customers where blood_group_id='$blood_group->id'");
+                                        $total = count($customers);
+                                        @endphp
+                                        <input type="checkbox" name="blood-checkboxes[]" class="checkbox-blood ml-2 mr-1" data-filter="blood_group" value="{{$blood_group->id}}" @if(isset($bloods)) @foreach($bloods as $blood) @if($blood==$blood_group->id) checked @endif @endforeach @endif><span>{{$blood_group->name}} ({{ $total }})</span>
                                     </label>
                                     @endforeach
                                 </div>
                                 <div>
+                                    @php
+                                        use Carbon\Carbon;
+                                        $today = Carbon::now();
+                                        $currentDay = $today->day;
+                                        $currentMonth = $today->month;
+                                    @endphp
                                     <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Special day wish</span></h5>
                                     <label>
-                                        <input type="checkbox" id="dob" name="dob" class="checkbox-district ml-2 mr-1" data-filter="dob" value="dob" @if(isset($dob)) @if($dob == "dob") checked @endif @endif><span>Birthday</span>
+                                        @php
+                                        $customers = DB::table('customers')
+                                        ->select('*')
+                                        ->where(DB::raw('DAY(date_of_birth)'), '=', $currentDay)
+                                        ->where(DB::raw('MONTH(date_of_birth)'), '=', $currentMonth)
+                                        ->get();
+                                        $total = count($customers);
+                                        @endphp
+                                        <input type="checkbox" id="dob" name="dob" class="checkbox-district ml-2 mr-1" data-filter="dob" value="dob" @if(isset($dob)) @if($dob=="dob" ) checked @endif @endif><span>Birthday ({{$total}})</span>
                                     </label>
                                     <label>
-                                        <input type="checkbox" id="m_day" name="m_day" class="checkbox-district ml-2 mr-1" data-filter="m_day" value="m_day" @if(isset($m_day)) @if($m_day == "m_day") checked @endif @endif><span>Marriage anniversary</span>
+                                        @php
+                                        $customers = DB::table('customers')
+                                        ->select('*')
+                                        ->where(DB::raw('DAY(marriage_date)'), '=', $currentDay)
+                                        ->where(DB::raw('MONTH(marriage_date)'), '=', $currentMonth)
+                                        ->get();
+                                        $total = count($customers);
+                                        @endphp
+                                        <input type="checkbox" id="m_day" name="m_day" class="checkbox-district ml-2 mr-1" data-filter="m_day" value="m_day" @if(isset($m_day)) @if($m_day=="m_day" ) checked @endif @endif><span>Marriage anniversary ({{$total}})</span>
                                     </label>
                                 </div>
                             </div>

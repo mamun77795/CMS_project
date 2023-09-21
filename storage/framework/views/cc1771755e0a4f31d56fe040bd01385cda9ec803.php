@@ -34,6 +34,9 @@
                 <form action="<?php echo e(route('auth')); ?>" method="post">
                     <?php echo csrf_field(); ?>
                     <div class="input-group mb-3">
+                    <span class="text-success">
+                        <?php if(isset($status)): ?> <?php echo e($status); ?> <?php endif; ?>
+                    </span>
                         <input type="text" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">

@@ -38,6 +38,8 @@
                             </div>
                         </div>
                     </div>
+                    <span class="text-danger"><?php if(isset($error)): ?> <?php echo e($error); ?> <?php endif; ?></span>
+                    <span class="text-success"><?php if(isset($message)): ?> <?php echo e($message); ?> <?php endif; ?></span>
                     <div class="d-flex">
                         <input type="submit" class="btn btn-secondary ml-auto" name="btn-submit" value="Submit">
                     </div>

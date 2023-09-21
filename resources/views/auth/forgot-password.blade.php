@@ -38,6 +38,8 @@
                             </div>
                         </div>
                     </div>
+                    <span class="text-danger">@if(isset($error)) {{$error}} @endif</span>
+                    <span class="text-success">@if(isset($message)) {{$message}} @endif</span>
                     <div class="d-flex">
                         <input type="submit" class="btn btn-secondary ml-auto" name="btn-submit" value="Submit">
                     </div>
