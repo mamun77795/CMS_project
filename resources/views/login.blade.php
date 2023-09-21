@@ -67,7 +67,7 @@
                 </form>
 
                 <p class="mb-1">
-                    <a href="">I forgot my password</a>
+                    <a href="{{url('/forgot-password')}}">I forgot my password</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

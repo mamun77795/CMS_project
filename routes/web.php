@@ -3,8 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\CheckLoginMiddleware;
 use App\Modules\Customer\Http\Controllers\FilterController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,8 +43,6 @@ Route::post('/filter-districts', [FilterController::class, 'getDistricts'])->nam
 Route::post('/filter-thanas', [FilterController::class, 'getThanas'])->name('getThanas');
 
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showForm'])->name('forgot-password');
-Route::post('forgot-password', 'ForgotPasswordController@sendResetLink')->name('forgot-password.post');
-Route::get('/reset-password/{token}', 'ResetPasswordController@showResetForm')->name('reset-password');
-Route::post('/reset-password', 'ResetPasswordController@reset')->name('reset-password.post');
-
-// Route::get('/filterr-message', [FilterController::class, 'messageFilter'])->name('messageFilter');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('forgot-password.post');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('reset-password');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('reset-password.post');

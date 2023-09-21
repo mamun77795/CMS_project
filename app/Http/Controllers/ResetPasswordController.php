@@ -10,19 +10,20 @@ class ResetPasswordController extends Controller
 {
     public function showResetForm($token){
         $user = User::where('reset_token', $token)->first();
+        $email = $user->email;
 
         if(!$user){
             abort(404);
         }
-
-        return view('auth.reset-password', ['token' => $token]);
+        
+        return view('auth.reset-password', ['token' => $token, 'email'=>$email]);
     }
 
     public function reset(Request $request){
         $this->validate($request, [
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
+            'password' => 'required|confirmed|min:5',
         ]);
 
         
@@ -37,6 +38,6 @@ class ResetPasswordController extends Controller
             'reset_token' => null,
         ]);
     
-        return redirect('/login')->with('status', 'Password reset successful. You can now log in.');
+        return redirect('/')->with('status', 'Password reset successful. You can now log in.');
     }
 }

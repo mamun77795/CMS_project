@@ -26,7 +26,7 @@ class ForgotPasswordController extends Controller
         $user->update(['reset_token'=>$token]);
 
         Mail::to($user->email)->send(new ResetPasswordMail($user));
-        return back()->with('status', 'Password reset link sent to your email.');
+        return "Password reset link has been sent to your email";
         
     }
 
