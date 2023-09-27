@@ -60,7 +60,7 @@ class UserController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('photo'), $imageName);
+            $image->move('photo', $imageName);
             $user->photo = $imageName;
         }
 
@@ -121,7 +121,7 @@ class UserController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('photo'), $imageName);
+            $image->move('photo', $imageName);
             $user->photo = $imageName;
         }
         //$user->role_id = $request->role_id;

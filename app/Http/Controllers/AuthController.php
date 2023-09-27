@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -28,9 +29,15 @@ class AuthController extends Controller
                    'sess_photo'=>$u[0]->photo,
                    'sess_role_id'=>$u[0]->role_id,
                    ]); 
+          
+          DB::table('users')->where('id', $u[0]->id)->update([
+              'last_signin_at'=>now(),
+              'last_signin_ip'=>$f->ip()
+          ]);
                          
           //return view("test.test_view");
           //return redirect("home");
+
           return redirect("/home");
 
       }else{

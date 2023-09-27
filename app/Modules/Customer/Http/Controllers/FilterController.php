@@ -316,7 +316,7 @@ class FilterController extends Controller
             if ($request->hasFile('attachement')) {
                 $image = $request->file('attachement');
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('photo'), $imageName);
+                $image->move('photo', $imageName);
                 $mail->attachement = $imageName;
             }
             $mail->heading = $request->subject;

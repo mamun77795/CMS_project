@@ -22,5 +22,4 @@ Route::group(['middleware'=>'check'], function(){
     Route::get('/filter', 'CustomerController@filterCustomer')->name('filterCustomer');
 
     Route::post('/download_customer', [FilterController::class,'downloadExportxl'])->name('downloadExportxl');
-
 });
