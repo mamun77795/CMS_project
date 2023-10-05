@@ -84,6 +84,8 @@ class CustomerController extends Controller
         $customer->thana_id = $request->thana_id;
         $customer->district_id = $request->district;
         $customer->blood_group_id = $request->blood_group_id;
+        $customer->post_code = $request->post_code;
+        $customer->reference = $request->reference;
 
         $date_of_birth = $request->date_of_birth;
         $dob = date('Y-m-d', strtotime($date_of_birth));
@@ -156,6 +158,8 @@ class CustomerController extends Controller
         $customer->post_code = $request->post_code;
         $customer->reference = $request->reference;
         $customer->blood_group_id = $request->blood_group_id;
+        $customer->post_code = $request->post_code;
+        $customer->reference = $request->reference;
 
         $date_of_birth = $request->date_of_birth;
         $dob = date('Y-m-d', strtotime($date_of_birth));

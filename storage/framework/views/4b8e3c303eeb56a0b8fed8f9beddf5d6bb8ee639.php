@@ -29,10 +29,10 @@
                                     <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $districtss): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <?php $__currentLoopData = $districtss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <label>
-                                    <?php
+                                        <?php
                                         $customers = DB::select("select * from customers where district_id='$district->id'");
                                         $total = count($customers);
-                                    ?>
+                                        ?>
                                         <input type="checkbox" id="district_id" name="district-checkboxes[]" class="checkbox-district ml-2 mr-1" data-filter="district" value="<?php echo e($district->id); ?>" <?php if($dids !=null): ?> <?php $__currentLoopData = $dids; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $did): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <?php if($did==$district->id): ?> checked <?php endif; ?> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <?php endif; ?>><span><?php echo e($district->name); ?> (<?php echo e($total); ?>)</span>
                                     </label>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -95,10 +95,10 @@
                                 </div>
                                 <div>
                                     <?php
-                                        use Carbon\Carbon;
-                                        $today = Carbon::now();
-                                        $currentDay = $today->day;
-                                        $currentMonth = $today->month;
+                                    use Carbon\Carbon;
+                                    $today = Carbon::now();
+                                    $currentDay = $today->day;
+                                    $currentMonth = $today->month;
                                     ?>
                                     <h5 class="text-white"><span class="bg-success pl-1 pr-1 mt-2 mb-2">Special day wish</span></h5>
                                     <label>
@@ -135,7 +135,7 @@
                                 <input type="file" name="attachement">
                                 <div class="col-md-12 d-flex justify-content-center">
                                     <input type="hidden" name="send" value="email">
-                                    <button type="submit" name="send_mail" class="btn btn-secondary mt-2">Send Mail</button>
+                                    <button type="submit" name="send_mail" id="send_mail" class="btn btn-secondary mt-2">Send Mail</button>
                                 </div>
                             </div>
                         </form>
@@ -155,15 +155,12 @@
         $('.checkbox-division').change(function() {
             $('#myForm').submit();
         });
-
         $('.checkbox-district').change(function() {
             $('#myForm').submit();
         });
-
         $('.checkbox-reference').change(function() {
             $('#myForm').submit();
         });
-
         $('.checkbox-blood').change(function() {
             $('#myForm').submit();
         });

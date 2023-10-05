@@ -76,6 +76,10 @@ class FilterController extends Controller
             $filter = DB::select("select * from customer_view");
             $this->data = $filter;
         }
+        if ($this->district == null && $this->thana != null || $this->blood_group != null) {
+            $filter = DB::select("select * from customer_view where thana_id='$this->thana'");
+            $this->data = $filter;
+        }
 
         if ($this->district == null && $this->thana == null && $this->blood_group != null) {
             $filter_blood = DB::select("select * from customer_view where blood_group_id='$this->blood_group'");
@@ -291,7 +295,6 @@ class FilterController extends Controller
 
 
         if (isset($request['send_mail'])) {
-
             $total_mail = 0;
             $sent_email = 0;
             $failed_mail = 0;
@@ -335,10 +338,9 @@ class FilterController extends Controller
                     $customer_email = $c_all->email;
                     if ($customer_email != null) {
                        $emailcustom = new MyCustomEmail();
-                       //$emailcustom = new WishMail();
-                       //$emailcustom = new MarriageAnniversary();
                         Mail::to($customer_email)->send($emailcustom);
                     }
+                    sleep(1);
                 }
             }
 

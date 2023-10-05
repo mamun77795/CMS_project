@@ -35,7 +35,8 @@ class MyCustomEmail extends Mailable
     {
         $emaildata = Mail::latest()->first();
 
-        return $this
+        if($emaildata->attachement != null){
+            return $this
             ->from('elitepaint96@gmail.com')
             ->subject($emaildata->heading)
             ->view('email.mail')
@@ -43,5 +44,16 @@ class MyCustomEmail extends Mailable
             ->with([
                 'message' => 'This is a test email from Laravel!',
             ]);
+        }
+
+        if($emaildata->attachement == null){
+            return $this
+            ->from('elitepaint96@gmail.com')
+            ->subject($emaildata->heading)
+            ->view('email.mail')
+            ->with([
+                'message' => 'This is a test email from Laravel!',
+            ]);
+        }
     }
 }

@@ -112,6 +112,10 @@
 
         $('#district').change(function() {
             $('#filter_form').submit();
+            $distirct =$('#$district').val();
+            if($distirct==""){
+                $('#thana').val("")
+            }
         });
 
         $('#thana').change(function() {
